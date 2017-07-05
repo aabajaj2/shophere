@@ -1,5 +1,7 @@
 package com.example.anjanibajaj.shophere;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -41,11 +43,15 @@ public class LoginFragment extends Fragment {
                 loginFunction();
             }
         });
-
+        registerButton = view.findViewById(R.id.button2);
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                FragmentManager fragmentManager = getFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                RegisterFragment registerFragment = new RegisterFragment();
+                fragmentTransaction.replace(R.id.content, registerFragment);
+                fragmentTransaction.commit();
             }
         });
         return view;
@@ -69,7 +75,7 @@ public class LoginFragment extends Fragment {
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             Toast.makeText(getActivity().getApplicationContext(), jsonObject.getString("response"), Toast.LENGTH_LONG).show();
-                            if(jsonObject.getString("response").equals("Login Sucessful")){
+                            if(jsonObject.getString("response").equals("Login Successful")){
                                 Intent intent = new Intent(getActivity().getApplicationContext(), MainActivity.class);
                                 startActivity(intent);
                             }
