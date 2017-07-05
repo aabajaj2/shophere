@@ -1,5 +1,5 @@
 Start node from node.js command prompt
-For starting mongodb: "C:\Program Files\MongoDB\Server\3.4\bin\mongo.exeî
-And from second command prompt too - "C:\Program Files\MongoDB\Server\3.4\bin\mongo.exe
+For starting mongodb: "C:\Program Files\MongoDB\Server\3.4\bin\mongod.exe‚Äù
+And from second command prompt too - "C:\Program Files\MongoDB\Server\3.4\bin\mongod.exe
 
 In package.json - main specifies the starting page, like index.
