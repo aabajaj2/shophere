@@ -1,6 +1,6 @@
 Start node from node.js command prompt
 For starting mongodb, type in cmd: 
-`"C:\Program Files\MongoDB\Server\3.4\bin\mongod.exe”` 
+```"C:\Program Files\MongoDB\Server\3.4\bin\mongod.exe”``` 
 
 RoboMongo 3T for GUI interaction with the db.
 
