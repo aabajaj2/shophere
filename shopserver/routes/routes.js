@@ -2,6 +2,7 @@ var chgpass = require('config/chgpass');
 var register = require('config/register');
 var login = require('config/login');
 var products = require('config/products');
+var categories = require('config/categories');
 
 module.exports = function(app) {
 
@@ -10,7 +11,11 @@ module.exports = function(app) {
 	});
 
 	app.get('/products', function(req, res) {
-		products.addProduct(req,res);
+		products.findproduct(req,res);
+	});
+
+	app.get('/category', function(req, res) {
+		categories.findcategory(req,res);
 	});
 
 	app.post('/login',function(req,res){
