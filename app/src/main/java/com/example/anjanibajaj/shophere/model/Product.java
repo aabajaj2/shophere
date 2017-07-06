@@ -6,13 +6,22 @@ package com.example.anjanibajaj.shophere.model;
 
 public class Product {
     private String name, category;
-    private Integer price, pid;
+    private Integer price, pid, cid;
 
-    public Product(String name, String category, Integer price, Integer pid) {
+    public Product(String name, String category, Integer price, Integer pid, Integer cid) {
         this.name = name;
         this.category = category;
         this.price = price;
         this.pid = pid;
+        this.cid = cid;
+    }
+
+    public Integer getCid() {
+        return cid;
+    }
+
+    public void setCid(Integer cid) {
+        this.cid = cid;
     }
 
     public String getName() {
