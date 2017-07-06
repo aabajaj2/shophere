@@ -1,4 +1,4 @@
-package com.example.anjanibajaj.shophere.Utils;
+package com.example.anjanibajaj.shophere.utils;
 
 import android.content.Context;
 

@@ -1,8 +1,8 @@
 <layout>
     <data>
         <variable
-            name="user"
-            type="com.example.anjanibajaj.shophere.model.User"/>
+            name="rvm"
+            type="com.example.anjanibajaj.shophere.viewModel.RegisterViewModel"/>
     </data>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -42,6 +42,7 @@
         android:ems="10"
         android:hint="Email"
         android:inputType="textPersonName"
+        android:text="@={rvm.username}"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -57,7 +58,8 @@
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
         android:ems="10"
-        android:hint="Password"
+        android:hint="@string/rpassword"
+        android:text="@={rvm.password}"
         android:inputType="textPassword"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.503"
@@ -71,7 +73,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Confirm Passoword"
+        android:hint="@string/confirm_password"
         android:inputType="textPassword"
         android:layout_marginTop="8dp"
         app:layout_constraintTop_toBottomOf="@+id/rpassword"
@@ -91,7 +93,8 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
-        android:text="Register!"
+        android:text="@string/register"
+        android:onClick="@{rvm.onUserRegisterClicked()}"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintLeft_toLeftOf="parent"

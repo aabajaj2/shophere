@@ -1,86 +1,33 @@
 package com.example.anjanibajaj.shophere;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.example.anjanibajaj.shophere.Utils.Constants;
-import com.example.anjanibajaj.shophere.Utils.VolleyNetwork;
-
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.example.anjanibajaj.shophere.databinding.FragmentRegisterBinding;
+import com.example.anjanibajaj.shophere.model.User;
+import com.example.anjanibajaj.shophere.viewModel.RegisterViewModel;
 
 
 public class RegisterFragment extends Fragment {
     EditText email, password;
     Button registerButton;
+    private FragmentRegisterBinding fragmentRegisterBinding;
+    private RegisterViewModel registerViewModel;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View registerView = inflater.inflate(R.layout.fragment_register, container, false);
-        email = registerView.findViewById(R.id.remail);
-        password = registerView.findViewById(R.id.rpassword);
-        registerButton = registerView.findViewById(R.id.registerbutton);
-        registerButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                registerFunction();
-            }
-        });
-
-        return registerView;
-    }
-
-    private void registerFunction() {
-        StringBuilder url = new StringBuilder();
-        url.append(Constants.APP_URL + "register/");
-        url.append(email.getText()).append("/").append(password.getText());
-        Log.d("URL", url.toString());
-        StringRequest stringRequest = getStringRequest(url);
-        VolleyNetwork.getInstance(getActivity()).addToRequestQueue(stringRequest);
-    }
-
-    private StringRequest getStringRequest(StringBuilder url) {
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url.toString(),
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONObject jsonObject = new JSONObject(response);
-                            String check = jsonObject.getString("response");
-                            Toast.makeText(getActivity().getApplicationContext(), check, Toast.LENGTH_LONG).show();
-                            if (check.equals("Registered")) {
-                                FragmentManager fragmentManager = getFragmentManager();
-                                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                                LoginFragment loginFragment = new LoginFragment();
-                                fragmentTransaction.replace(R.id.content, loginFragment);
-                                fragmentTransaction.commit();
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        Log.d("Response", response);
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getActivity().getApplicationContext(), "Error in connection", Toast.LENGTH_LONG).show();
-            }
-        });
-        return stringRequest;
+        fragmentRegisterBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_register,container, false);
+        User user = new User("","");
+        registerViewModel = new RegisterViewModel(user, fragmentRegisterBinding, this);
+        fragmentRegisterBinding.setRvm(registerViewModel);
+        return fragmentRegisterBinding.getRoot();
     }
 }

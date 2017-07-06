@@ -12,4 +12,7 @@
     <string name="password">Password</string>
     <string name="login">Login</string>
     <string name="new_user_register_here">New User? Register here..</string>
+    <string name="register">Register!</string>
+    <string name="rpassword">Password</string>
+    <string name="confirm_password">Confirm Password</string>
 </resources>

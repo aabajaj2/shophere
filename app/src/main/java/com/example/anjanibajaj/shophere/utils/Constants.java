@@ -1,4 +1,4 @@
-package com.example.anjanibajaj.shophere.Utils;
+package com.example.anjanibajaj.shophere.utils;
 
 /**
  * Created by Anjani Bajaj on 7/5/2017.

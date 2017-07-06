@@ -1,5 +1,8 @@
 package com.example.anjanibajaj.shophere.viewModel;
 
+import com.example.anjanibajaj.shophere.R;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
@@ -14,8 +17,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.anjanibajaj.shophere.LoginFragment;
 import com.example.anjanibajaj.shophere.MainActivity;
-import com.example.anjanibajaj.shophere.Utils.Constants;
-import com.example.anjanibajaj.shophere.Utils.VolleyNetwork;
+import com.example.anjanibajaj.shophere.RegisterFragment;
+import com.example.anjanibajaj.shophere.utils.Constants;
+import com.example.anjanibajaj.shophere.utils.VolleyNetwork;
 import com.example.anjanibajaj.shophere.databinding.FragmentLoginBinding;
 import com.example.anjanibajaj.shophere.model.User;
 
@@ -56,12 +60,10 @@ public class LoginViewModel extends BaseObservable {
 
     public void setUsername(String username){
         user.setUsername(username);
-        Log.d("Username:", username+" is set");
     }
 
     public void setPassword(String password){
         user.setPassword(password);
-        Log.d("Password:", password+" is set");
     }
 
     public View.OnClickListener onLoginClicked(){
@@ -73,6 +75,20 @@ public class LoginViewModel extends BaseObservable {
             }
         };
     }
+
+    public View.OnClickListener onRegisterClicked(){
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentManager fragmentManager = loginFragment.getFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                RegisterFragment registerFragment = new RegisterFragment();
+                fragmentTransaction.replace(R.id.content, registerFragment);
+                fragmentTransaction.commit();
+            }
+        };
+    }
+
     @NonNull
     public String buildUrl() {
         StringBuilder url = new StringBuilder();
