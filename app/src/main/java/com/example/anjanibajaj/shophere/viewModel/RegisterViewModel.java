@@ -116,5 +116,4 @@ public class RegisterViewModel extends BaseObservable{
         });
         return stringRequest;
     }
-
 }

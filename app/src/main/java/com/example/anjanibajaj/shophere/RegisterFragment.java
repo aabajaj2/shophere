@@ -1,13 +1,11 @@
 package com.example.anjanibajaj.shophere;
 
+import android.app.Fragment;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 
 import com.example.anjanibajaj.shophere.databinding.FragmentRegisterBinding;
 import com.example.anjanibajaj.shophere.model.User;
@@ -15,8 +13,6 @@ import com.example.anjanibajaj.shophere.viewModel.RegisterViewModel;
 
 
 public class RegisterFragment extends Fragment {
-    EditText email, password;
-    Button registerButton;
     private FragmentRegisterBinding fragmentRegisterBinding;
     private RegisterViewModel registerViewModel;
 
