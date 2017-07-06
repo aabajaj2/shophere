@@ -1,6 +1,7 @@
 package com.example.anjanibajaj.shophere;
 
-import android.content.Intent;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.util.Log;
@@ -47,7 +48,7 @@ public class RegisterFragment extends Fragment {
     private void registerFunction() {
         StringBuilder url = new StringBuilder();
         url.append(Constants.APP_URL + "register/");
-        url.append(email.getText() + "/" + password.getText());
+        url.append(email.getText()).append("/").append(password.getText());
         Log.d("URL", url.toString());
         StringRequest stringRequest = getStringRequest(url);
         VolleyNetwork.getInstance(getActivity()).addToRequestQueue(stringRequest);
@@ -63,8 +64,11 @@ public class RegisterFragment extends Fragment {
                             String check = jsonObject.getString("response");
                             Toast.makeText(getActivity().getApplicationContext(), check, Toast.LENGTH_LONG).show();
                             if (check.equals("Registered")) {
-                                Intent intent = new Intent(getActivity().getApplicationContext(), MainActivity.class);
-                                startActivity(intent);
+                                FragmentManager fragmentManager = getFragmentManager();
+                                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                                LoginFragment loginFragment = new LoginFragment();
+                                fragmentTransaction.replace(R.id.content, loginFragment);
+                                fragmentTransaction.commit();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

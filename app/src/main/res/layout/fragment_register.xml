@@ -1,3 +1,9 @@
+<layout>
+    <data>
+        <variable
+            name="user"
+            type="com.example.anjanibajaj.shophere.model.User"/>
+    </data>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -95,3 +101,4 @@
 </android.support.constraint.ConstraintLayout>
 
 </FrameLayout>
+</layout>

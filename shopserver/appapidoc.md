@@ -5,7 +5,6 @@ Categories of the product in DB:
 4. TV
 5. Smartwatch
 
-
 ```
 APIs on web- 
 http://127.0.0.1:8080/register/email/password
