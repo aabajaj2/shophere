@@ -3,6 +3,9 @@ package com.example.anjanibajaj.shophere.viewModel;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -34,12 +37,11 @@ import static android.R.id.list;
 
 public class ProductViewModel extends BaseObservable {
     private Product product;
-    private FragmentIndexBinding fragmentIndexBinding;
-    private IndexFragment indexFragment;
+   private IndexFragment indexFragment;
+    private StaggeredGridLayoutManager sglm;
 
-    public ProductViewModel(Product product, FragmentIndexBinding fragmentIndexBinding, IndexFragment indexFragment) {
+    public ProductViewModel(Product product, IndexFragment indexFragment) {
         this.product = product;
-        this.fragmentIndexBinding = fragmentIndexBinding;
         this.indexFragment = indexFragment;
     }
 
@@ -49,14 +51,6 @@ public class ProductViewModel extends BaseObservable {
 
     public void setProduct(Product product) {
         this.product = product;
-    }
-
-    public FragmentIndexBinding getFragmentIndexBinding() {
-        return fragmentIndexBinding;
-    }
-
-    public void setFragmentIndexBinding(FragmentIndexBinding fragmentIndexBinding) {
-        this.fragmentIndexBinding = fragmentIndexBinding;
     }
 
     public IndexFragment getIndexFragment() {
@@ -159,7 +153,7 @@ public class ProductViewModel extends BaseObservable {
         return categories;
     }
 
-    private List<Product> parseJSONProduct(String response) throws JSONException {
+    public List<Product> parseJSONProduct(String response) throws JSONException {
         JSONObject jsonObject = new JSONObject(response);
         JSONArray array = jsonObject.getJSONArray("result");
         List<Product> products = new ArrayList<>();
