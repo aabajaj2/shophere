@@ -23,6 +23,8 @@ public class IndexFragment extends Fragment {
         fragmentIndexBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_index,container, false);
         Product product = new Product("","",null,null,null);
         productViewModel = new ProductViewModel(product, fragmentIndexBinding, this);
+        productViewModel.getCategories(productViewModel.buildUrl("category"));
+        productViewModel.getAllProducts(productViewModel.buildUrl("products"));
         fragmentIndexBinding.setPvm(productViewModel);
         return fragmentIndexBinding.getRoot();
     }

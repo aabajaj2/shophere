@@ -1,5 +1,6 @@
 package com.example.anjanibajaj.shophere.viewModel;
 
+import com.example.anjanibajaj.shophere.IndexFragment;
 import com.example.anjanibajaj.shophere.R;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -113,8 +114,11 @@ public class LoginViewModel extends BaseObservable {
                             JSONObject jsonObject = new JSONObject(response);
                             Toast.makeText(loginFragment.getActivity().getApplicationContext(), jsonObject.getString("response"), Toast.LENGTH_LONG).show();
                             if(jsonObject.getString("response").equals("Login Successful")){
-                                Intent intent = new Intent(loginFragment.getActivity().getApplicationContext(), MainActivity.class);
-                                loginFragment.startActivity(intent);
+                                IndexFragment indexFragment = new IndexFragment();
+                                FragmentTransaction transaction = loginFragment.getFragmentManager().beginTransaction();
+                                transaction.replace(R.id.content, indexFragment); // give your fragment container id in first parameter
+                                transaction.addToBackStack(null);  // if written, this transaction will be added to backstack
+                                transaction.commit();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
