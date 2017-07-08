@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity
         transaction.replace(R.id.content, indexFragment); // give your fragment container id in first parameter
         transaction.addToBackStack(null);  // if written, this transaction will be added to backstack
         transaction.commit();
+        getSupportActionBar().setTitle("Pick your category!");
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -38,6 +39,7 @@ public class MainActivity extends AppCompatActivity
                 transaction.replace(R.id.content, loginFragment); // give your fragment container id in first parameter
                 transaction.addToBackStack(null);  // if written, this transaction will be added to backstack
                 transaction.commit();
+                getSupportActionBar().setTitle("Login");
                 Snackbar.make(view, "Login", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
@@ -90,11 +92,12 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
+        String title = "";
         if (id == R.id.nav_camera) {
             // Handle the camera action
+            title = "Camera";
         } else if (id == R.id.nav_gallery) {
-
+            title = "Gallery";
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {
@@ -104,7 +107,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_send) {
 
         }
-
+        getSupportActionBar().setTitle(title);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;

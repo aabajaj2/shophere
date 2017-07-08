@@ -1,9 +1,12 @@
 package com.example.anjanibajaj.shophere.viewModel;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.databinding.BindingAdapter;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -14,9 +17,13 @@ import com.android.volley.toolbox.StringRequest;
 import com.bumptech.glide.Glide;
 import com.example.anjanibajaj.shophere.BR;
 import com.example.anjanibajaj.shophere.IndexFragment;
+import com.example.anjanibajaj.shophere.ProductFragment;
+import com.example.anjanibajaj.shophere.R;
+import com.example.anjanibajaj.shophere.RegisterFragment;
 import com.example.anjanibajaj.shophere.adapters.CategoryAdapter;
 import com.example.anjanibajaj.shophere.databinding.FragmentIndexBinding;
 import com.example.anjanibajaj.shophere.model.Category;
+import com.example.anjanibajaj.shophere.model.Product;
 import com.example.anjanibajaj.shophere.utils.VolleyNetwork;
 
 import org.json.JSONArray;
@@ -24,7 +31,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -43,6 +49,11 @@ public class CategoryViewModel extends BaseObservable {
         this.category = category;
         this.indexFragment = indexFragment;
         this.fragmentIndexBinding = fragmentIndexBinding;
+    }
+
+    @BindingAdapter({"image"})
+    public static void loadImage(ImageView view, String url) {
+        Glide.with(view.getContext()).load(url).centerCrop().into(view);
     }
 
     public Category getCategory() {
@@ -74,7 +85,7 @@ public class CategoryViewModel extends BaseObservable {
         return category.getType();
     }
 
-    public void setType(String type){
+    public void setType(String type) {
         category.setType(type);
     }
 
@@ -83,7 +94,7 @@ public class CategoryViewModel extends BaseObservable {
         return category.getType();
     }
 
-    public void setCid(Integer cid){
+    public void setCid(Integer cid) {
         category.setCid(cid);
     }
 
@@ -106,7 +117,7 @@ public class CategoryViewModel extends BaseObservable {
                         try {
                             List<Category> s = parseJSONCategory(response);
                             setAdapterCategory(s);
-                            setType(s.get(0).getType()+s.get(1).getType()+s.get(2).getType()+s.get(3).getType()+s.get(4).getType());
+                            setType(s.get(0).getType() + s.get(1).getType() + s.get(2).getType() + s.get(3).getType() + s.get(4).getType());
                             notifyPropertyChanged(BR.category);
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -115,7 +126,7 @@ public class CategoryViewModel extends BaseObservable {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(indexFragment.getActivity().getApplicationContext(),error.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(indexFragment.getActivity().getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -125,29 +136,37 @@ public class CategoryViewModel extends BaseObservable {
         JSONArray array = jsonObject.getJSONArray("result");
         List<Category> categories = new ArrayList<>();
         loadImageMap();
-        for(int i=0; i<array.length(); i++) {
+        for (int i = 0; i < array.length(); i++) {
             Category c = new Category((Integer) array.getJSONObject(i).get("cid"), array.getJSONObject(i).getString("type"), imageMap.get(i));
             categories.add(c);
         }
         return categories;
     }
 
-    @BindingAdapter({"image"})
-    public static void loadImage(ImageView view, String url) {
-        Glide.with(view.getContext()).load(url).centerCrop().into(view);
-    }
-
-    private void  setAdapterCategory(List<Category> categories) throws JSONException {
-        CategoryAdapter categoryAdapter = new CategoryAdapter(categories, indexFragment , fragmentIndexBinding);
+    private void setAdapterCategory(List<Category> categories) throws JSONException {
+        CategoryAdapter categoryAdapter = new CategoryAdapter(categories, indexFragment, fragmentIndexBinding);
         fragmentIndexBinding.recyclerView.setAdapter(categoryAdapter);
     }
 
-    private void loadImageMap(){
+    private void loadImageMap() {
         imageMap = new TreeMap<>();
-        imageMap.put(1,"http://images.samsung.com/is/image/samsung/p5/nz/tablets/brilliant-screen-big-entertainment.png?$ORIGIN_PNG$");
-        imageMap.put(2,"https://cnet2.cbsistatic.com/img/C3RPtt8a_n1be4azT8jokd9vhsM=/1600x900/2016/07/21/d90577a0-8dc3-426a-889f-b3c29bbc9b17/4-laptops-dan-02.jpg");
-        imageMap.put(3,"http://www.argos.co.uk/wcsstore/argos/en_GB/images/promo/4k-tv/4k-tv-intro.png");
-        imageMap.put(4,"http://crunchwear.com/wp-content/uploads/2016/09/Smartwatch.jpg");
+        imageMap.put(1, "http://images.samsung.com/is/image/samsung/p5/nz/tablets/brilliant-screen-big-entertainment.png?$ORIGIN_PNG$");
+        imageMap.put(2, "https://cnet2.cbsistatic.com/img/C3RPtt8a_n1be4azT8jokd9vhsM=/1600x900/2016/07/21/d90577a0-8dc3-426a-889f-b3c29bbc9b17/4-laptops-dan-02.jpg");
+        imageMap.put(3, "http://www.argos.co.uk/wcsstore/argos/en_GB/images/promo/4k-tv/4k-tv-intro.png");
+        imageMap.put(4, "http://crunchwear.com/wp-content/uploads/2016/09/Smartwatch.jpg");
         imageMap.put(0, "https://support.apple.com/library/content/dam/edam/applecare/images/en_US/iphone/iphone-6splus-colors.jpg");
+    }
+
+    public View.OnClickListener categoryCardClick(){
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentManager fragmentManager = indexFragment.getFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                ProductFragment productFragment = new ProductFragment();
+                fragmentTransaction.replace(R.id.content, productFragment);
+                fragmentTransaction.commit();
+            }
+        };
     }
 }
