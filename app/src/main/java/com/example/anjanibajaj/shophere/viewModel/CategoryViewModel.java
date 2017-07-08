@@ -2,13 +2,16 @@ package com.example.anjanibajaj.shophere.viewModel;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.databinding.BindingAdapter;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.bumptech.glide.Glide;
 import com.example.anjanibajaj.shophere.BR;
 import com.example.anjanibajaj.shophere.IndexFragment;
 import com.example.anjanibajaj.shophere.adapters.CategoryAdapter;
@@ -21,7 +24,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Created by Anjani Bajaj on 7/8/2017.
@@ -31,6 +37,7 @@ public class CategoryViewModel extends BaseObservable {
     private Category category;
     private IndexFragment indexFragment;
     private FragmentIndexBinding fragmentIndexBinding;
+    private Map<Integer, String> imageMap;
 
     public CategoryViewModel(Category category, IndexFragment indexFragment, FragmentIndexBinding fragmentIndexBinding) {
         this.category = category;
@@ -80,6 +87,11 @@ public class CategoryViewModel extends BaseObservable {
         category.setCid(cid);
     }
 
+    @Bindable
+    public String getImageUrl() {
+        return category.getImageUrl();
+    }
+
     public void getCategories(String url) {
         StringRequest stringRequest = getStringRequestForCategories(url);
         VolleyNetwork.getInstance(indexFragment.getActivity()).addToRequestQueue(stringRequest);
@@ -93,12 +105,9 @@ public class CategoryViewModel extends BaseObservable {
                         Log.d("R f c:", response);
                         try {
                             List<Category> s = parseJSONCategory(response);
-                            System.out.println("--------------------------------"+s);
-                            setAdapterategory(s);
+                            setAdapterCategory(s);
                             setType(s.get(0).getType()+s.get(1).getType()+s.get(2).getType()+s.get(3).getType()+s.get(4).getType());
                             notifyPropertyChanged(BR.category);
-
-
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -115,14 +124,30 @@ public class CategoryViewModel extends BaseObservable {
         JSONObject jsonObject = new JSONObject(response);
         JSONArray array = jsonObject.getJSONArray("result");
         List<Category> categories = new ArrayList<>();
+        loadImageMap();
         for(int i=0; i<array.length(); i++) {
-            Category c = new Category((Integer) array.getJSONObject(i).get("cid"), array.getJSONObject(i).getString("type"));
+            Category c = new Category((Integer) array.getJSONObject(i).get("cid"), array.getJSONObject(i).getString("type"), imageMap.get(i));
             categories.add(c);
         }
         return categories;
     }
-    public void  setAdapterategory(List<Category> products) throws JSONException {
-        CategoryAdapter productsAdapter = new CategoryAdapter(products, indexFragment , fragmentIndexBinding);
-        fragmentIndexBinding.recyclerView.setAdapter(productsAdapter);
+
+    @BindingAdapter({"image"})
+    public static void loadImage(ImageView view, String url) {
+        Glide.with(view.getContext()).load(url).centerCrop().into(view);
+    }
+
+    private void  setAdapterCategory(List<Category> categories) throws JSONException {
+        CategoryAdapter categoryAdapter = new CategoryAdapter(categories, indexFragment , fragmentIndexBinding);
+        fragmentIndexBinding.recyclerView.setAdapter(categoryAdapter);
+    }
+
+    private void loadImageMap(){
+        imageMap = new TreeMap<>();
+        imageMap.put(1,"http://images.samsung.com/is/image/samsung/p5/nz/tablets/brilliant-screen-big-entertainment.png?$ORIGIN_PNG$");
+        imageMap.put(2,"https://cnet2.cbsistatic.com/img/C3RPtt8a_n1be4azT8jokd9vhsM=/1600x900/2016/07/21/d90577a0-8dc3-426a-889f-b3c29bbc9b17/4-laptops-dan-02.jpg");
+        imageMap.put(3,"http://www.argos.co.uk/wcsstore/argos/en_GB/images/promo/4k-tv/4k-tv-intro.png");
+        imageMap.put(4,"http://crunchwear.com/wp-content/uploads/2016/09/Smartwatch.jpg");
+        imageMap.put(0, "https://support.apple.com/library/content/dam/edam/applecare/images/en_US/iphone/iphone-6splus-colors.jpg");
     }
 }

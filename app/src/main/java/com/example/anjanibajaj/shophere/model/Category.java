@@ -7,6 +7,27 @@ package com.example.anjanibajaj.shophere.model;
 public class Category {
     public Integer cid;
     public String type;
+    public String imageUrl;
+
+    public Category(Integer cid, String type) {
+        this.cid = cid;
+        this.type = type;
+    }
+
+    public Category(Integer cid, String type, String imageUrl) {
+        this.cid = cid;
+        this.type = type;
+        this.imageUrl = imageUrl;
+    }
+
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 
     public Integer getCid() {
         return cid;
@@ -24,8 +45,4 @@ public class Category {
         this.type = type;
     }
 
-    public Category(Integer cid, String type) {
-        this.cid = cid;
-        this.type = type;
-    }
 }
