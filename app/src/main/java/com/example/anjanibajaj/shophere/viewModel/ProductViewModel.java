@@ -16,6 +16,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.example.anjanibajaj.shophere.BR;
 import com.example.anjanibajaj.shophere.IndexFragment;
 import com.example.anjanibajaj.shophere.MainActivity;
+import com.example.anjanibajaj.shophere.adapters.ProductsAdapter;
 import com.example.anjanibajaj.shophere.databinding.FragmentIndexBinding;
 import com.example.anjanibajaj.shophere.model.Category;
 import com.example.anjanibajaj.shophere.model.Product;
@@ -29,7 +30,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import static android.R.id.list;
 
 /**
  * Created by Anjani Bajaj on 7/6/2017.
@@ -37,12 +37,14 @@ import static android.R.id.list;
 
 public class ProductViewModel extends BaseObservable {
     private Product product;
-   private IndexFragment indexFragment;
+    private IndexFragment indexFragment;
+    private FragmentIndexBinding fragmentIndexBinding;
     private StaggeredGridLayoutManager sglm;
 
-    public ProductViewModel(Product product, IndexFragment indexFragment) {
+    public ProductViewModel(Product product, IndexFragment indexFragment, FragmentIndexBinding fragmentIndexBinding) {
         this.product = product;
         this.indexFragment = indexFragment;
+        this.fragmentIndexBinding = fragmentIndexBinding;
     }
 
     public Product getProduct() {
@@ -100,6 +102,7 @@ public class ProductViewModel extends BaseObservable {
                         Log.d("R:", response);
                         try {
                             List<Product> products = parseJSONProduct(response);
+                            setAdapterProduct(products);
                             setName(products.get(0).getName()+products.get(1).getName()+products.get(2).getName()+products.get(3).getName()+products.get(4).getName());
                             notifyPropertyChanged(BR.name);
                         } catch (JSONException e) {
@@ -163,5 +166,10 @@ public class ProductViewModel extends BaseObservable {
             products.add(p);
         }
         return products;
+    }
+
+    public void  setAdapterProduct(List<Product> products) throws JSONException {
+        ProductsAdapter productsAdapter = new ProductsAdapter(products, indexFragment , fragmentIndexBinding);
+        fragmentIndexBinding.recyclerView.setAdapter(productsAdapter);
     }
 }

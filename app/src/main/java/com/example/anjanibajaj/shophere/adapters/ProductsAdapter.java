@@ -23,10 +23,12 @@ import java.util.List;
 public class ProductsAdapter extends RecyclerView.Adapter {
     List<Product> productList;
     private IndexFragment indexFragment;
+    private FragmentIndexBinding fragmentIndexBinding;
 
-    public ProductsAdapter(List<Product> products, IndexFragment indexFragment ){
+    public ProductsAdapter(List<Product> products, IndexFragment indexFragment, FragmentIndexBinding fragmentIndexBinding ){
         this.productList = products;
         this.indexFragment = indexFragment;
+        this.fragmentIndexBinding = fragmentIndexBinding;
     }
 
     @Override
@@ -39,7 +41,7 @@ public class ProductsAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        ProductViewModel productViewModel = new ProductViewModel(productList.get(position), indexFragment);
+        ProductViewModel productViewModel = new ProductViewModel(productList.get(position), indexFragment, fragmentIndexBinding);
         myViewHolder myViewHolder = (myViewHolder) holder;
         ActivityProductCardViewBinding binding = ((myViewHolder) holder).cvb;
         binding.setPvm(productViewModel);
