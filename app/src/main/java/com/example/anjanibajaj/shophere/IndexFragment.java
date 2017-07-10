@@ -2,8 +2,8 @@ package com.example.anjanibajaj.shophere;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -36,7 +36,7 @@ public class IndexFragment extends Fragment {
         Category category = new Category(null,"");
         CategoryViewModel categoryViewModel = new CategoryViewModel(category, this, fragmentIndexBinding);
         categoryViewModel.getCategories(buildUrl("category"));
-        StaggeredGridLayoutManager sglm = new StaggeredGridLayoutManager(2, 1);
+        StaggeredGridLayoutManager sglm = new StaggeredGridLayoutManager(1, 1);
         fragmentIndexBinding.recyclerView.setLayoutManager(sglm);
         fragmentIndexBinding.setCvm(categoryViewModel);
         return fragmentIndexBinding.getRoot();

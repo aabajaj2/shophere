@@ -13,26 +13,63 @@
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:id="@+id/card_view"
         android:layout_gravity="center"
-        android:layout_width="200dp"
+        android:layout_width="match_parent"
         android:layout_height="200dp"
         card_view:cardCornerRadius="5dp"
         android:elevation="50dp"
         app:elevation = "50dp"
         android:clickable="true"
         android:onClick="@{cvm.categoryCardClick()}">
-
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
         <ImageView
-            android:id="@+id/image"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:image = "@{cvm.imageUrl}"/>
+            android:layout_width="392dp"
+            android:layout_height="148dp"
+            app:image="@{cvm.imageUrl}"
+            card_view:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="8dp"
+            card_view:layout_constraintLeft_toLeftOf="parent"
+            card_view:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="8dp"
+            android:layout_marginRight="8dp"
+            card_view:layout_constraintRight_toRightOf="parent"
+            card_view:layout_constraintHorizontal_bias="0.375"
+            card_view:layout_constraintVertical_bias="0.0"
+            android:id="@+id/imageView2" />
 
-        <TextView
-            android:id="@+id/info_text"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:gravity="center"
-            android:text="@={cvm.type}" />
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="249dp"
+                android:layout_height="43dp"
+                android:layout_marginTop="8dp"
+                android:text="@={cvm.type}"
+                card_view:layout_constraintTop_toBottomOf="@+id/imageView2"
+                android:layout_marginLeft="8dp"
+                card_view:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginRight="8dp"
+                android:textSize="36sp"
+                android:gravity="center"
+                card_view:layout_constraintRight_toRightOf="parent"
+                card_view:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginBottom="8dp"
+                card_view:layout_constraintVertical_bias="0.533"
+                card_view:layout_constraintHorizontal_bias="0.504" />
+            <!--<TextView-->
+            <!--android:id="@+id/info_text"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="60dp"-->
+            <!--android:gravity="center"-->
+            <!--android:text="@={cvm.type}" />-->
+
+        <!--<ImageView-->
+            <!--android:id="@+id/image"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="138dp"-->
+            <!--app:image="@{cvm.imageUrl}" />-->
+
+        </android.support.constraint.ConstraintLayout>
 
     </android.support.v7.widget.CardView>
 

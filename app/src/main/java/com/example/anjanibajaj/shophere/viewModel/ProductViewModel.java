@@ -71,6 +71,11 @@ public class ProductViewModel extends BaseObservable {
         return product.getName();
     }
 
+    @Bindable
+    public String getPrice() {
+        return "$"+product.getPrice();
+    }
+
     public void setName(String name){
         product.setName(name);
     }

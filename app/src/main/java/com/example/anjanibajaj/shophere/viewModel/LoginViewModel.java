@@ -2,12 +2,12 @@ package com.example.anjanibajaj.shophere.viewModel;
 
 import com.example.anjanibajaj.shophere.IndexFragment;
 import com.example.anjanibajaj.shophere.R;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -81,7 +81,7 @@ public class LoginViewModel extends BaseObservable {
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FragmentManager fragmentManager = loginFragment.getFragmentManager();
+                FragmentManager fragmentManager = loginFragment.getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 RegisterFragment registerFragment = new RegisterFragment();
                 fragmentTransaction.replace(R.id.content, registerFragment);
@@ -119,6 +119,8 @@ public class LoginViewModel extends BaseObservable {
                                 transaction.replace(R.id.content, indexFragment); // give your fragment container id in first parameter
                                 transaction.addToBackStack(null);  // if written, this transaction will be added to backstack
                                 transaction.commit();
+                            }else{
+                                Toast.makeText(loginFragment.getActivity().getApplicationContext(),jsonObject.getString("response"), Toast.LENGTH_LONG).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

@@ -1,12 +1,14 @@
 package com.example.anjanibajaj.shophere.viewModel;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
+
+
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -97,7 +99,7 @@ public class RegisterViewModel extends BaseObservable{
                             String check = jsonObject.getString("response");
                             Toast.makeText(registerFragment.getActivity().getApplicationContext(), check, Toast.LENGTH_LONG).show();
                             if (check.equals("Registered")) {
-                                FragmentManager fragmentManager = registerFragment.getFragmentManager();
+                                FragmentManager fragmentManager = registerFragment.getActivity().getSupportFragmentManager();
                                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                                 LoginFragment loginFragment = new LoginFragment();
                                 fragmentTransaction.replace(R.id.content, loginFragment);
