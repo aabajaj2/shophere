@@ -42,8 +42,12 @@ public class CategoryAdapter extends RecyclerView.Adapter{
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         CategoryViewModel categoryViewModel = new CategoryViewModel(categoryList.get(position), indexFragment, fragmentIndexBinding);
         myViewHolder myViewHolder = (myViewHolder) holder;
-        Integer cid = categoryViewModel.getCid();
-        holder.itemView.setTag(cid);
+//        Integer cid = categoryViewModel.getCid();
+//        String type = categoryViewModel.getType();
+        Category category = categoryViewModel.getCategory();
+        holder.itemView.setTag(category);
+//        holder.itemView.setTag(cid);
+//        holder.itemView.setTag(type);
         ViewCategoryCardBinding binding = ((myViewHolder) holder).cvb;
         binding.setCvm(categoryViewModel);
     }

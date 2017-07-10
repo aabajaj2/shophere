@@ -5,9 +5,19 @@ package com.example.anjanibajaj.shophere.model;
  */
 
 public class Product {
-    private String name, category;
+    private String name;
+    private String category;
+    private String imageUrl;
     private Integer price, pid, cid;
 
+    public Product(String name, String category, Integer price, Integer pid, Integer cid, String imageUrl) {
+        this.name = name;
+        this.category = category;
+        this.price = price;
+        this.pid = pid;
+        this.cid = cid;
+        this.imageUrl = imageUrl;
+    }
     public Product(String name, String category, Integer price, Integer pid, Integer cid) {
         this.name = name;
         this.category = category;
@@ -15,6 +25,7 @@ public class Product {
         this.pid = pid;
         this.cid = cid;
     }
+
 
     public Integer getCid() {
         return cid;
@@ -54,5 +65,14 @@ public class Product {
 
     public void setPid(Integer pid) {
         this.pid = pid;
+    }
+
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

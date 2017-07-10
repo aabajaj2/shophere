@@ -20,11 +20,9 @@ import com.example.anjanibajaj.shophere.BR;
 import com.example.anjanibajaj.shophere.IndexFragment;
 import com.example.anjanibajaj.shophere.ProductFragment;
 import com.example.anjanibajaj.shophere.R;
-import com.example.anjanibajaj.shophere.RegisterFragment;
 import com.example.anjanibajaj.shophere.adapters.CategoryAdapter;
 import com.example.anjanibajaj.shophere.databinding.FragmentIndexBinding;
 import com.example.anjanibajaj.shophere.model.Category;
-import com.example.anjanibajaj.shophere.model.Product;
 import com.example.anjanibajaj.shophere.utils.VolleyNetwork;
 
 import org.json.JSONArray;
@@ -165,9 +163,12 @@ public class CategoryViewModel extends BaseObservable {
                 FragmentManager fragmentManager = indexFragment.getFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 ProductFragment productFragment = new ProductFragment();
-                Integer cid = (Integer) view.getTag();
+                Category category = (Category) view.getTag();
+                Integer cid = category.getCid();
+                String type = category.getType();
                 Bundle bundle = new Bundle();
                 bundle.putInt("cid", cid);
+                bundle.putString("ctype", type);
                 productFragment.setArguments(bundle);
                 fragmentTransaction.replace(R.id.content, productFragment);
                 fragmentTransaction.commit();

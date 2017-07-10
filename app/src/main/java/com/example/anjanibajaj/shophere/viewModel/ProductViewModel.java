@@ -2,14 +2,17 @@ package com.example.anjanibajaj.shophere.viewModel;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.databinding.BindingAdapter;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.bumptech.glide.Glide;
 import com.example.anjanibajaj.shophere.BR;
 import com.example.anjanibajaj.shophere.IndexFragment;
 import com.example.anjanibajaj.shophere.ProductFragment;
@@ -30,12 +33,17 @@ import java.util.TreeMap;
 
 /**
  * Created by Anjani Bajaj on 7/6/2017.
+ * This class is the viewModel for ProductFragment
+ * Sends request /product using Singleton VolleyNetwork Class
+ * Parses response and returns the data according to the selected category from Category ViewModel
  */
 
 public class ProductViewModel extends BaseObservable {
     private Product product;
     private ProductFragment productFragment;
     private FragmentProductBinding fragmentProductBinding;
+    private Map<Integer, String> imageMap;
+    private List<Integer> productIdList;
 
     public ProductViewModel(Product product, ProductFragment productFragment, FragmentProductBinding fragmentProductBinding) {
         this.product = product;
@@ -76,6 +84,11 @@ public class ProductViewModel extends BaseObservable {
         product.setCategory(category);
     }
 
+    @Bindable
+    public String getImageUrl() {
+        return product.getImageUrl();
+    }
+
     public void getAllProducts(String url, Integer cid) {
         StringRequest stringRequest = getStringRequest(url, cid);
         VolleyNetwork.getInstance(productFragment.getActivity()).addToRequestQueue(stringRequest);
@@ -107,10 +120,16 @@ public class ProductViewModel extends BaseObservable {
         JSONObject jsonObject = new JSONObject(response);
         JSONArray array = jsonObject.getJSONArray("result");
         List<Product> products = new ArrayList<>();
+        productIdList = new ArrayList<>();
+        for(int i=0; i<array.length(); i++) {
+            productIdList.add((Integer) array.getJSONObject(i).get("id"));
+        }
+        loadProductImageMap(productIdList);
         for(int i=0; i<array.length(); i++) {
             Product p = new Product(array.getJSONObject(i).getString("name"), array.getJSONObject(i).getString("category"), (Integer) array.getJSONObject(i).get("price"),
-                    (Integer) array.getJSONObject(i).get("id"), (Integer) array.getJSONObject(i).get("cid"));
+                    (Integer) array.getJSONObject(i).get("id"), (Integer) array.getJSONObject(i).get("cid"), imageMap.get(array.getJSONObject(i).get("id")));
             products.add(p);
+            productIdList.add((Integer) array.getJSONObject(i).get("id"));
         }
         List<Product> cproducts = new ArrayList<>();
         Log.d("Size of products", String.valueOf(products.size()));
@@ -122,8 +141,26 @@ public class ProductViewModel extends BaseObservable {
         return cproducts;
     }
 
+    private void loadProductImageMap(List<Integer> productIdList) {
+        imageMap = new TreeMap<>();
+        for (Integer i: productIdList) {
+            switch (i){
+                case 120: imageMap.put(i, "https://store.storeimages.cdn-apple.com/4662/as-images.apple.com/is/image/AppleInc/aos/published/images/i/ph/iphone6s/gray/iphone6s-gray-select-2015?wid=1200&hei=630&fmt=jpeg&qlt=95&op_sharpen=0&resMode=bicub&op_usm=0.5,0.5,0,0&iccEmbed=0&layer=comp&.v=kqNjH3");
+                    break;
+                case 122: imageMap.put(i, "https://cnet2.cbsistatic.com/img/8YI9KWWu59TgqpOnOT7ev4Zww6M=/270x203/2017/01/24/a5a951ec-acfa-4ecb-9e2c-2ebaf61d0283/oneplus-3t-header.jpg");
+                    break;
+                default:
+                    imageMap.put(i, "http://www.mystore.no/wp-content/themes/Avada-child-2.0/images/2014/495.png");
+            }
+        }
+    }
+
     private void  setAdapterProduct(List<Product> products) throws JSONException {
         ProductsAdapter productsAdapter = new ProductsAdapter(products, productFragment, fragmentProductBinding);
         fragmentProductBinding.recyclerView2.setAdapter(productsAdapter);
+    }
+    @BindingAdapter({"image"})
+    public static void loadImage(ImageView view, String url) {
+        Glide.with(view.getContext()).load(url).centerCrop().into(view);
     }
 }

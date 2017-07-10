@@ -16,26 +16,26 @@ import com.example.anjanibajaj.shophere.utils.Constants;
 import com.example.anjanibajaj.shophere.viewModel.ProductViewModel;
 
 public class ProductFragment extends Fragment {
-    private FragmentProductBinding fragmentProductBinding;
     private Integer cid;
+    private String type;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-           fragmentProductBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_product,container, false);
-           Product product = new Product(null,null,null,null,null);
-           ProductViewModel productViewModel = new ProductViewModel(product, this, fragmentProductBinding);
-           Bundle bundle = this.getArguments();
-           if (bundle != null) {
-               cid = bundle.getInt("cid");
-           }
-           Log.d("CID", String.valueOf(cid));
-           productViewModel.getAllProducts(buildUrl("products"), cid);
-           StaggeredGridLayoutManager sglm = new StaggeredGridLayoutManager(4, 1);
-           fragmentProductBinding.recyclerView2.setLayoutManager(sglm);
-           fragmentProductBinding.setPvm(productViewModel);
-           return fragmentProductBinding.getRoot();
-       }
+        FragmentProductBinding fragmentProductBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_product, container, false);
+        Product product = new Product(null,null,null,null,null);
+        ProductViewModel productViewModel = new ProductViewModel(product, this, fragmentProductBinding);
+        Bundle bundle = this.getArguments();
+        if (bundle != null) {
+            cid = bundle.getInt("cid");
+            type = bundle.getString("ctype");
+        }
+        productViewModel.getAllProducts(buildUrl("products"), cid);
+        StaggeredGridLayoutManager sglm = new StaggeredGridLayoutManager(3, 1);
+        fragmentProductBinding.recyclerView2.setLayoutManager(sglm);
+        fragmentProductBinding.setPvm(productViewModel);
+        return fragmentProductBinding.getRoot();
+    }
 
     @NonNull
     public String buildUrl(String type) {
