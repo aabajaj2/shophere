@@ -5,6 +5,7 @@ import android.app.FragmentTransaction;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.databinding.BindingAdapter;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -90,8 +91,8 @@ public class CategoryViewModel extends BaseObservable {
     }
 
     @Bindable
-    public String getCid() {
-        return category.getType();
+    public Integer getCid() {
+        return category.getCid();
     }
 
     public void setCid(Integer cid) {
@@ -164,6 +165,10 @@ public class CategoryViewModel extends BaseObservable {
                 FragmentManager fragmentManager = indexFragment.getFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 ProductFragment productFragment = new ProductFragment();
+                Integer cid = (Integer) view.getTag();
+                Bundle bundle = new Bundle();
+                bundle.putInt("cid", cid);
+                productFragment.setArguments(bundle);
                 fragmentTransaction.replace(R.id.content, productFragment);
                 fragmentTransaction.commit();
             }

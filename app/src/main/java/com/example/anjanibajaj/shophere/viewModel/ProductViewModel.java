@@ -12,11 +12,10 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.anjanibajaj.shophere.BR;
 import com.example.anjanibajaj.shophere.IndexFragment;
+import com.example.anjanibajaj.shophere.ProductFragment;
 import com.example.anjanibajaj.shophere.adapters.ProductsAdapter;
-import com.example.anjanibajaj.shophere.databinding.FragmentIndexBinding;
-import com.example.anjanibajaj.shophere.model.Category;
+import com.example.anjanibajaj.shophere.databinding.FragmentProductBinding;
 import com.example.anjanibajaj.shophere.model.Product;
-import com.example.anjanibajaj.shophere.utils.Constants;
 import com.example.anjanibajaj.shophere.utils.VolleyNetwork;
 
 import org.json.JSONArray;
@@ -25,6 +24,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 
 /**
@@ -33,13 +34,13 @@ import java.util.List;
 
 public class ProductViewModel extends BaseObservable {
     private Product product;
-    private IndexFragment indexFragment;
-    private FragmentIndexBinding fragmentIndexBinding;
+    private ProductFragment productFragment;
+    private FragmentProductBinding fragmentProductBinding;
 
-    public ProductViewModel(Product product, IndexFragment indexFragment, FragmentIndexBinding fragmentIndexBinding) {
+    public ProductViewModel(Product product, ProductFragment productFragment, FragmentProductBinding fragmentProductBinding) {
         this.product = product;
-        this.indexFragment = indexFragment;
-        this.fragmentIndexBinding = fragmentIndexBinding;
+        this.productFragment = productFragment;
+        this.fragmentProductBinding = fragmentProductBinding;
     }
 
     public Product getProduct() {
@@ -50,12 +51,12 @@ public class ProductViewModel extends BaseObservable {
         this.product = product;
     }
 
-    public IndexFragment getIndexFragment() {
-        return indexFragment;
+    public ProductFragment getProductFragment() {
+        return productFragment;
     }
 
-    public void setIndexFragment(IndexFragment indexFragment) {
-        this.indexFragment = indexFragment;
+    public void setProductFragment(ProductFragment productFragment) {
+        this.productFragment = productFragment;
     }
     @Bindable
     public String getName() {
@@ -75,23 +76,21 @@ public class ProductViewModel extends BaseObservable {
         product.setCategory(category);
     }
 
-    public void getAllProducts(String url) {
-        StringRequest stringRequest = getStringRequest(url);
-        VolleyNetwork.getInstance(indexFragment.getActivity()).addToRequestQueue(stringRequest);
+    public void getAllProducts(String url, Integer cid) {
+        StringRequest stringRequest = getStringRequest(url, cid);
+        VolleyNetwork.getInstance(productFragment.getActivity()).addToRequestQueue(stringRequest);
     }
 
     @NonNull
-    private StringRequest getStringRequest(String url) {
+    private StringRequest getStringRequest(String url, final Integer cid) {
         return new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         Log.d("R:", response);
                         try {
-                            List<Product> products = parseJSONProduct(response);
-                            setAdapterProduct(products);
-                            setName(products.get(0).getName()+products.get(1).getName()+products.get(2).getName()+products.get(3).getName()+products.get(4).getName());
-                            notifyPropertyChanged(BR.name);
+                            List<Product> cproducts = parseJSONProduct(response, cid);
+                            setAdapterProduct(cproducts);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -99,12 +98,12 @@ public class ProductViewModel extends BaseObservable {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(indexFragment.getActivity().getApplicationContext(),error.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(productFragment.getActivity().getApplicationContext(),error.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }
 
-    public List<Product> parseJSONProduct(String response) throws JSONException {
+    private List<Product> parseJSONProduct(String response, Integer cid) throws JSONException {
         JSONObject jsonObject = new JSONObject(response);
         JSONArray array = jsonObject.getJSONArray("result");
         List<Product> products = new ArrayList<>();
@@ -113,11 +112,18 @@ public class ProductViewModel extends BaseObservable {
                     (Integer) array.getJSONObject(i).get("id"), (Integer) array.getJSONObject(i).get("cid"));
             products.add(p);
         }
-        return products;
+        List<Product> cproducts = new ArrayList<>();
+        Log.d("Size of products", String.valueOf(products.size()));
+        for (int i=0; i<products.size(); i++) {
+            if (products.get(i).getCid() == cid) {
+                cproducts.add(products.get(i));
+            }
+        }
+        return cproducts;
     }
 
-    public void  setAdapterProduct(List<Product> products) throws JSONException {
-        ProductsAdapter productsAdapter = new ProductsAdapter(products, indexFragment , fragmentIndexBinding);
-        fragmentIndexBinding.recyclerView.setAdapter(productsAdapter);
+    private void  setAdapterProduct(List<Product> products) throws JSONException {
+        ProductsAdapter productsAdapter = new ProductsAdapter(products, productFragment, fragmentProductBinding);
+        fragmentProductBinding.recyclerView2.setAdapter(productsAdapter);
     }
 }

@@ -10,11 +10,8 @@ import com.example.anjanibajaj.shophere.IndexFragment;
 import com.example.anjanibajaj.shophere.R;
 import com.example.anjanibajaj.shophere.databinding.FragmentIndexBinding;
 import com.example.anjanibajaj.shophere.databinding.ViewCategoryCardBinding;
-import com.example.anjanibajaj.shophere.databinding.ViewProductCardBinding;
 import com.example.anjanibajaj.shophere.model.Category;
-import com.example.anjanibajaj.shophere.model.Product;
 import com.example.anjanibajaj.shophere.viewModel.CategoryViewModel;
-import com.example.anjanibajaj.shophere.viewModel.ProductViewModel;
 
 import java.util.List;
 
@@ -45,6 +42,8 @@ public class CategoryAdapter extends RecyclerView.Adapter{
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         CategoryViewModel categoryViewModel = new CategoryViewModel(categoryList.get(position), indexFragment, fragmentIndexBinding);
         myViewHolder myViewHolder = (myViewHolder) holder;
+        Integer cid = categoryViewModel.getCid();
+        holder.itemView.setTag(cid);
         ViewCategoryCardBinding binding = ((myViewHolder) holder).cvb;
         binding.setCvm(categoryViewModel);
     }
@@ -56,7 +55,7 @@ public class CategoryAdapter extends RecyclerView.Adapter{
 
     private class myViewHolder extends RecyclerView.ViewHolder{
         ViewCategoryCardBinding cvb;
-        public myViewHolder(View itemView) {
+        myViewHolder(View itemView) {
             super(itemView);
             cvb = DataBindingUtil.bind(itemView);
         }

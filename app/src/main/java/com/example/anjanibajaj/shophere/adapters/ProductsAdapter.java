@@ -7,8 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.anjanibajaj.shophere.IndexFragment;
+import com.example.anjanibajaj.shophere.ProductFragment;
 import com.example.anjanibajaj.shophere.R;
 import com.example.anjanibajaj.shophere.databinding.FragmentIndexBinding;
+import com.example.anjanibajaj.shophere.databinding.FragmentProductBinding;
 import com.example.anjanibajaj.shophere.databinding.ViewProductCardBinding;
 import com.example.anjanibajaj.shophere.model.Product;
 import com.example.anjanibajaj.shophere.viewModel.ProductViewModel;
@@ -21,13 +23,13 @@ import java.util.List;
 
 public class ProductsAdapter extends RecyclerView.Adapter {
     List<Product> productList;
-    private IndexFragment indexFragment;
-    private FragmentIndexBinding fragmentIndexBinding;
+    private ProductFragment productFragment;
+    private FragmentProductBinding fragmentProductBinding;
 
-    public ProductsAdapter(List<Product> products, IndexFragment indexFragment, FragmentIndexBinding fragmentIndexBinding ){
+    public ProductsAdapter(List<Product> products, ProductFragment productFragment, FragmentProductBinding fragmentProductBinding ){
         this.productList = products;
-        this.indexFragment = indexFragment;
-        this.fragmentIndexBinding = fragmentIndexBinding;
+        this.productFragment = productFragment;
+        this.fragmentProductBinding = fragmentProductBinding;
     }
 
     @Override
@@ -40,7 +42,7 @@ public class ProductsAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        ProductViewModel productViewModel = new ProductViewModel(productList.get(position), indexFragment, fragmentIndexBinding);
+        ProductViewModel productViewModel = new ProductViewModel(productList.get(position), productFragment, fragmentProductBinding);
         myViewHolder myViewHolder = (myViewHolder) holder;
         ViewProductCardBinding binding = ((myViewHolder) holder).cvb;
         binding.setPvm(productViewModel);

@@ -27,7 +27,6 @@ import java.util.List;
 public class IndexFragment extends Fragment {
 
     private FragmentIndexBinding fragmentIndexBinding;
-    private ProductViewModel productViewModel;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
