@@ -3,8 +3,12 @@ package com.example.anjanibajaj.shophere.viewModel;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.databinding.BindingAdapter;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -15,9 +19,12 @@ import com.android.volley.toolbox.StringRequest;
 import com.bumptech.glide.Glide;
 import com.example.anjanibajaj.shophere.BR;
 import com.example.anjanibajaj.shophere.IndexFragment;
+import com.example.anjanibajaj.shophere.ProductDetailsFragment;
 import com.example.anjanibajaj.shophere.ProductFragment;
+import com.example.anjanibajaj.shophere.R;
 import com.example.anjanibajaj.shophere.adapters.ProductsAdapter;
 import com.example.anjanibajaj.shophere.databinding.FragmentProductBinding;
+import com.example.anjanibajaj.shophere.model.Category;
 import com.example.anjanibajaj.shophere.model.Product;
 import com.example.anjanibajaj.shophere.utils.VolleyNetwork;
 
@@ -43,7 +50,9 @@ public class ProductViewModel extends BaseObservable {
     private ProductFragment productFragment;
     private FragmentProductBinding fragmentProductBinding;
     private Map<Integer, String> imageMap;
-    private List<Integer> productIdList;
+    List<Product> cproducts;
+    private List<String> images;
+    public Map<Integer, List<String>> imageList;
 
     public ProductViewModel(Product product, ProductFragment productFragment, FragmentProductBinding fragmentProductBinding) {
         this.product = product;
@@ -51,6 +60,7 @@ public class ProductViewModel extends BaseObservable {
         this.fragmentProductBinding = fragmentProductBinding;
     }
 
+    @Bindable
     public Product getProduct() {
         return product;
     }
@@ -73,7 +83,11 @@ public class ProductViewModel extends BaseObservable {
 
     @Bindable
     public String getPrice() {
-        return "$"+product.getPrice();
+        return "$"+String.valueOf(product.getPrice());
+    }
+
+    public void setPrice(String price){
+        product.setPrice(Integer.valueOf(price));
     }
 
     public void setName(String name){
@@ -94,6 +108,15 @@ public class ProductViewModel extends BaseObservable {
         return product.getImageUrl();
     }
 
+    @Bindable
+    public Integer getPid(){
+        return product.getPid();
+    }
+
+    public void setPid(Integer pid){
+        product.setPid(pid);
+    }
+
     public void getAllProducts(String url, Integer cid) {
         StringRequest stringRequest = getStringRequest(url, cid);
         VolleyNetwork.getInstance(productFragment.getActivity()).addToRequestQueue(stringRequest);
@@ -107,7 +130,7 @@ public class ProductViewModel extends BaseObservable {
                     public void onResponse(String response) {
                         Log.d("R:", response);
                         try {
-                            List<Product> cproducts = parseJSONProduct(response, cid);
+                            cproducts = parseJSONProduct(response, cid);
                             setAdapterProduct(cproducts);
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -116,7 +139,7 @@ public class ProductViewModel extends BaseObservable {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(productFragment.getActivity().getApplicationContext(),error.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(productFragment.getActivity().getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -125,11 +148,12 @@ public class ProductViewModel extends BaseObservable {
         JSONObject jsonObject = new JSONObject(response);
         JSONArray array = jsonObject.getJSONArray("result");
         List<Product> products = new ArrayList<>();
-        productIdList = new ArrayList<>();
+        List<Integer> productIdList = new ArrayList<>();
         for(int i=0; i<array.length(); i++) {
             productIdList.add((Integer) array.getJSONObject(i).get("id"));
         }
         loadProductImageMap(productIdList);
+        loadProductDetailsImageMap(productIdList);
         for(int i=0; i<array.length(); i++) {
             Product p = new Product(array.getJSONObject(i).getString("name"), array.getJSONObject(i).getString("category"), (Integer) array.getJSONObject(i).get("price"),
                     (Integer) array.getJSONObject(i).get("id"), (Integer) array.getJSONObject(i).get("cid"), imageMap.get(array.getJSONObject(i).get("id")));
@@ -167,5 +191,54 @@ public class ProductViewModel extends BaseObservable {
     @BindingAdapter({"image"})
     public static void loadImage(ImageView view, String url) {
         Glide.with(view.getContext()).load(url).centerCrop().into(view);
+    }
+
+//    private Product getProductDetails(Integer pid){
+//        for (Product p: cproducts) {
+//            if (p.getPid() == pid){
+//                return p;
+//            }
+//        }
+//        return null;
+//    }
+
+    public View.OnClickListener productCardClicked(){
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentManager fragmentManager = productFragment.getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                ProductDetailsFragment productDetailsFragment = new ProductDetailsFragment();
+                Product product = (Product) view.getTag();
+                Bundle bundle = new Bundle();
+                bundle.putInt("pid", product.getPid());
+                bundle.putString("name", product.getName());
+                bundle.putInt("price", product.getPrice());
+                bundle.putString("category", product.getCategory());
+                bundle.putString("image", product.getImageUrl());
+                productDetailsFragment.setArguments(bundle);
+                fragmentTransaction.replace(R.id.content, productDetailsFragment);
+                fragmentTransaction.commit();
+            }
+        };
+    }
+
+    private void loadProductDetailsImageMap(List<Integer> productIdList) {
+        imageList = new TreeMap<>();
+        List<String> images;
+        for (Integer i: productIdList) {
+            switch (i){
+                case 120:
+                    images = new ArrayList<>();
+                    images.add("https://store.storeimages.cdn-apple.com/4662/as-images.apple.com/is/image/AppleInc/aos/published/images/i/ph/iphone6s/gray/iphone6s-gray-select-2015?wid=1200&hei=630&fmt=jpeg&qlt=95&op_sharpen=0&resMode=bicub&op_usm=0.5,0.5,0,0&iccEmbed=0&layer=comp&.v=kqNjH3");
+                    images.add("https://cnet2.cbsistatic.com/img/8YI9KWWu59TgqpOnOT7ev4Zww6M=/270x203/2017/01/24/a5a951ec-acfa-4ecb-9e2c-2ebaf61d0283/oneplus-3t-header.jpg");
+                    imageList.put(i, images);
+                    break;
+          default:
+                    images = new ArrayList<>();
+                    images.add("http://www.mystore.no/wp-content/themes/Avada-child-2.0/images/2014/495.png");
+                    imageList.put(i, images);
+            }
+        }
     }
 }

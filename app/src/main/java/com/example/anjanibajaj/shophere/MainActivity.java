@@ -58,16 +58,6 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
-//    @Override
-//    public void onBackPressed() {
-//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-//        if (drawer.isDrawerOpen(GravityCompat.START)) {
-//            drawer.closeDrawer(GravityCompat.START);
-//        } else {
-//            super.onBackPressed();
-//        }
-//    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -101,14 +91,11 @@ public class MainActivity extends AppCompatActivity
         if (count == 0) {
             Fragment f = getSupportFragmentManager().findFragmentById(R.id.content);
 
-
             if (f instanceof IndexFragment) {
                 if (doubleBackToExitPressedOnce) {
                     super.onBackPressed();
                     return;
                 }
-
-              //  showExitDialog();
                 doubleBackToExitPressedOnce = false;
             } else {
                 Fragment fragment = new IndexFragment();

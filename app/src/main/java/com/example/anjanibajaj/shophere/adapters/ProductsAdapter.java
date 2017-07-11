@@ -44,6 +44,7 @@ public class ProductsAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         ProductViewModel productViewModel = new ProductViewModel(productList.get(position), productFragment, fragmentProductBinding);
         myViewHolder myViewHolder = (myViewHolder) holder;
+        holder.itemView.setTag(productViewModel.getProduct());
         ViewProductCardBinding binding = ((myViewHolder) holder).cvb;
         binding.setPvm(productViewModel);
     }
