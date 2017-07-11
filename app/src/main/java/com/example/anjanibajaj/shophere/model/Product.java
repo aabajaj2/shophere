@@ -2,6 +2,7 @@ package com.example.anjanibajaj.shophere.model;
 
 /**
  * Created by Anjani Bajaj on 7/6/2017.
+ * Model for the gadgets in the store
  */
 
 public class Product {

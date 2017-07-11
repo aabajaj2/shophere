@@ -5,6 +5,7 @@ import android.databinding.Bindable;
 
 /**
  * Created by Anjani Bajaj on 7/5/2017.
+ * This is a class for a User
  */
 
 public class User{

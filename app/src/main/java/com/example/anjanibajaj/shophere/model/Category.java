@@ -2,12 +2,13 @@ package com.example.anjanibajaj.shophere.model;
 
 /**
  * Created by Anjani Bajaj on 7/7/2017.
+ * Model for categories of the gadget
  */
 
 public class Category {
-    public Integer cid;
+    private Integer cid;
     public String type;
-    public String imageUrl;
+    private String imageUrl;
 
     public Category(Integer cid, String type) {
         this.cid = cid;

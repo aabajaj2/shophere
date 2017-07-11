@@ -59,6 +59,5 @@ public class ProductsAdapter extends RecyclerView.Adapter {
             super(itemView);
             cvb = DataBindingUtil.bind(itemView);
         }
-
     }
 }

@@ -36,6 +36,7 @@ import java.util.TreeMap;
 
 /**
  * Created by Anjani Bajaj on 7/8/2017.
+ * Binds data for category View (which is also the index page) i.e fragment_index and IndexFragment where all the categories are displayed.
  */
 
 public class CategoryViewModel extends BaseObservable {
@@ -52,7 +53,7 @@ public class CategoryViewModel extends BaseObservable {
 
     @BindingAdapter({"image"})
     public static void loadImage(ImageView view, String url) {
-        Glide.with(view.getContext()).load(url).centerCrop().into(view);
+        Glide.with(view.getContext()).load(url).crossFade().into(view);
     }
 
     public Category getCategory() {
@@ -125,7 +126,7 @@ public class CategoryViewModel extends BaseObservable {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(indexFragment.getActivity().getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(indexFragment.getActivity().getApplicationContext(), "Connection Error: Cannot reach the server! "+error.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }

@@ -29,6 +29,8 @@ import org.json.JSONObject;
 
 /**
  * Created by Anjani Bajaj on 7/6/2017.
+ * Handles the data related to login of the user
+ * Sends request /login/email/password using Singleton VolleyNetwork Class
  */
 
 public class LoginViewModel extends BaseObservable {
@@ -71,7 +73,7 @@ public class LoginViewModel extends BaseObservable {
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(view.getContext(), user.getUsername()+" Clicked", Toast.LENGTH_SHORT).show();
+                Toast.makeText(view.getContext(), user.getUsername()+" logging in", Toast.LENGTH_SHORT).show();
                 loginFunction(buildUrl());
             }
         };
@@ -91,15 +93,15 @@ public class LoginViewModel extends BaseObservable {
     }
 
     @NonNull
-    public String buildUrl() {
+    private String buildUrl() {
         StringBuilder url = new StringBuilder();
         url.append(Constants.APP_URL+"login/");
-        url.append(user.getUsername() + "/" + user.getPassword());
+        url.append(user.getUsername()).append("/").append(user.getPassword());
         Log.d("URL", url.toString());
         return url.toString();
     }
 
-    public void loginFunction(String url) {
+    private void loginFunction(String url) {
         StringRequest stringRequest = getStringRequest(url);
         VolleyNetwork.getInstance(loginFragment.getActivity()).addToRequestQueue(stringRequest);
     }
@@ -112,14 +114,15 @@ public class LoginViewModel extends BaseObservable {
                     public void onResponse(String response) {
                         try {
                             JSONObject jsonObject = new JSONObject(response);
-                            Toast.makeText(loginFragment.getActivity().getApplicationContext(), jsonObject.getString("response"), Toast.LENGTH_LONG).show();
+                            Toast.makeText(loginFragment.getActivity().getApplicationContext(), jsonObject.getString("response"), Toast.LENGTH_SHORT).show();
                             if(jsonObject.getString("response").equals("Login Successful")){
                                 IndexFragment indexFragment = new IndexFragment();
                                 FragmentTransaction transaction = loginFragment.getFragmentManager().beginTransaction();
                                 transaction.replace(R.id.content, indexFragment); // give your fragment container id in first parameter
                                 transaction.addToBackStack(null);  // if written, this transaction will be added to backstack
                                 transaction.commit();
-                            }else{
+                            }
+                            else{
                                 Toast.makeText(loginFragment.getActivity().getApplicationContext(),jsonObject.getString("response"), Toast.LENGTH_LONG).show();
                             }
                         } catch (JSONException e) {
@@ -129,7 +132,7 @@ public class LoginViewModel extends BaseObservable {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(loginFragment.getActivity().getApplicationContext(),error.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(loginFragment.getActivity().getApplicationContext(),"Connection Error: Cannot reach the server!", Toast.LENGTH_LONG).show();
             }
         });
     }

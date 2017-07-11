@@ -27,12 +27,14 @@ import org.json.JSONObject;
 
 /**
  * Created by Anjani Bajaj on 7/6/2017.
+ *  ViewModel for RegisterFragment
+ * Sends request /register/email/password using Singleton VolleyNetwork Class
  */
 
 public class RegisterViewModel extends BaseObservable{
     private User user;
-    FragmentRegisterBinding fragmentRegisterBinding;
-    RegisterFragment registerFragment;
+    private FragmentRegisterBinding fragmentRegisterBinding;
+    private RegisterFragment registerFragment;
 
     public RegisterViewModel(User user, FragmentRegisterBinding fragmentRegisterBinding, RegisterFragment registerFragment) {
         this.user = user;
@@ -90,7 +92,7 @@ public class RegisterViewModel extends BaseObservable{
     }
 
     private StringRequest getStringRequest(StringBuilder url) {
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url.toString(),
+        return new StringRequest(Request.Method.GET, url.toString(),
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -104,6 +106,8 @@ public class RegisterViewModel extends BaseObservable{
                                 LoginFragment loginFragment = new LoginFragment();
                                 fragmentTransaction.replace(R.id.content, loginFragment);
                                 fragmentTransaction.commit();
+                            } else{
+                                Toast.makeText(registerFragment.getActivity().getApplicationContext(),jsonObject.getString("response"), Toast.LENGTH_LONG).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -113,9 +117,8 @@ public class RegisterViewModel extends BaseObservable{
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(registerFragment.getActivity().getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(registerFragment.getActivity().getApplicationContext(),"Connection Error: Cannot reach the server!", Toast.LENGTH_LONG).show();
             }
         });
-        return stringRequest;
     }
 }

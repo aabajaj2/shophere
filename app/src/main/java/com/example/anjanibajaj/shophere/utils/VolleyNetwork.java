@@ -8,6 +8,8 @@ import com.android.volley.toolbox.Volley;
 
 /**
  * Created by Anjani Bajaj on 7/5/2017.
+ * This is a singleton class for the network connection of the app
+ * Adds a new request to the requestQueue and sends request to the node.js server
  */
 
 public class VolleyNetwork {
@@ -27,10 +29,8 @@ public class VolleyNetwork {
         return mInstance;
     }
 
-    public RequestQueue getRequestQueue() {
+    private RequestQueue getRequestQueue() {
         if (mRequestQueue == null) {
-            // getApplicationContext() is key, it keeps you from leaking the
-            // Activity or BroadcastReceiver if someone passes one in.
             mRequestQueue = Volley.newRequestQueue(mCtx.getApplicationContext());
         }
         return mRequestQueue;

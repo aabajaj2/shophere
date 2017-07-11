@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
         <variable
@@ -24,8 +23,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
         <ImageView
-            android:layout_width="392dp"
-            android:layout_height="148dp"
+            android:layout_width="369dp"
+            android:layout_height="135dp"
             app:image="@{cvm.imageUrl}"
             card_view:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="8dp"
@@ -35,9 +34,10 @@
             android:layout_marginBottom="8dp"
             android:layout_marginRight="8dp"
             card_view:layout_constraintRight_toRightOf="parent"
-            card_view:layout_constraintHorizontal_bias="0.375"
-            card_view:layout_constraintVertical_bias="0.0"
-            android:id="@+id/imageView2" />
+            card_view:layout_constraintHorizontal_bias="0.0"
+            card_view:layout_constraintVertical_bias="0.163"
+            android:id="@+id/imageView2"
+            android:contentDescription="@string/category_image" />
 
             <TextView
                 android:id="@+id/textView2"
@@ -45,7 +45,6 @@
                 android:layout_height="43dp"
                 android:layout_marginTop="8dp"
                 android:text="@={cvm.type}"
-                card_view:layout_constraintTop_toBottomOf="@+id/imageView2"
                 android:layout_marginLeft="8dp"
                 card_view:layout_constraintLeft_toLeftOf="parent"
                 android:layout_marginRight="8dp"
@@ -54,8 +53,9 @@
                 card_view:layout_constraintRight_toRightOf="parent"
                 card_view:layout_constraintBottom_toBottomOf="parent"
                 android:layout_marginBottom="8dp"
-                card_view:layout_constraintVertical_bias="0.533"
-                card_view:layout_constraintHorizontal_bias="0.504" />
+                card_view:layout_constraintVertical_bias="1.0"
+                card_view:layout_constraintHorizontal_bias="0.504"
+                card_view:layout_constraintTop_toTopOf="parent" />
             <!--<TextView-->
             <!--android:id="@+id/info_text"-->
             <!--android:layout_width="match_parent"-->

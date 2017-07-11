@@ -35,6 +35,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.TreeMap;
 
 
@@ -50,9 +51,9 @@ public class ProductViewModel extends BaseObservable {
     private ProductFragment productFragment;
     private FragmentProductBinding fragmentProductBinding;
     private Map<Integer, String> imageMap;
-    List<Product> cproducts;
+    private List<Product> cproducts;
     private List<String> images;
-    public Map<Integer, List<String>> imageList;
+    private Map<Integer, List<String>> imageList;
 
     public ProductViewModel(Product product, ProductFragment productFragment, FragmentProductBinding fragmentProductBinding) {
         this.product = product;
@@ -139,7 +140,7 @@ public class ProductViewModel extends BaseObservable {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(productFragment.getActivity().getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(productFragment.getActivity().getApplicationContext(), "Connection Error: Cannot reach the server!", Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -163,7 +164,7 @@ public class ProductViewModel extends BaseObservable {
         List<Product> cproducts = new ArrayList<>();
         Log.d("Size of products", String.valueOf(products.size()));
         for (int i=0; i<products.size(); i++) {
-            if (products.get(i).getCid() == cid) {
+            if (Objects.equals(products.get(i).getCid(), cid)) {
                 cproducts.add(products.get(i));
             }
         }

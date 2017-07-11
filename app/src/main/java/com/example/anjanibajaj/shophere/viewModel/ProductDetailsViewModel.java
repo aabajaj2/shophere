@@ -10,6 +10,7 @@ import com.example.anjanibajaj.shophere.model.Product;
 
 /**
  * Created by Anjani Bajaj on 7/11/2017.
+ *
  */
 
 public class ProductDetailsViewModel extends BaseObservable {
@@ -89,9 +90,4 @@ public class ProductDetailsViewModel extends BaseObservable {
         product.setPid(Integer.valueOf(pid));
     }
 
-    public void getProductDetails(Integer pid){
-        setPid(String.valueOf(pid));
-//        loadProductImageMap();
-        notifyPropertyChanged(pid);
-    }
 }
