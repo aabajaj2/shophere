@@ -104,7 +104,7 @@ public class RegisterViewModel extends BaseObservable{
                                 FragmentManager fragmentManager = registerFragment.getActivity().getSupportFragmentManager();
                                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                                 LoginFragment loginFragment = new LoginFragment();
-                                fragmentTransaction.replace(R.id.content, loginFragment);
+                                fragmentTransaction.replace(R.id.login_content, loginFragment);
                                 fragmentTransaction.commit();
                             } else{
                                 Toast.makeText(registerFragment.getActivity().getApplicationContext(),jsonObject.getString("response"), Toast.LENGTH_LONG).show();

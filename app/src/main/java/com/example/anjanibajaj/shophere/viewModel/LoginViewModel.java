@@ -2,10 +2,14 @@ package com.example.anjanibajaj.shophere.viewModel;
 
 import com.example.anjanibajaj.shophere.IndexFragment;
 import com.example.anjanibajaj.shophere.R;
+
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
@@ -20,6 +24,7 @@ import com.example.anjanibajaj.shophere.LoginFragment;
 import com.example.anjanibajaj.shophere.MainActivity;
 import com.example.anjanibajaj.shophere.RegisterFragment;
 import com.example.anjanibajaj.shophere.utils.Constants;
+import com.example.anjanibajaj.shophere.utils.SessionManager;
 import com.example.anjanibajaj.shophere.utils.VolleyNetwork;
 import com.example.anjanibajaj.shophere.databinding.FragmentLoginBinding;
 import com.example.anjanibajaj.shophere.model.User;
@@ -37,11 +42,16 @@ public class LoginViewModel extends BaseObservable {
     private User user;
     private FragmentLoginBinding fragmentLoginBinding;
     private LoginFragment loginFragment;
+    private SessionManager sessionManager;
 
     public LoginViewModel(User user, FragmentLoginBinding fragmentLoginBinding, LoginFragment loginFragment) {
         this.user = user;
         this.fragmentLoginBinding = fragmentLoginBinding;
         this.loginFragment = loginFragment;
+    }
+
+    public LoginViewModel(User user){
+        this.user = user;
     }
 
     public User getUser() {
@@ -83,10 +93,12 @@ public class LoginViewModel extends BaseObservable {
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Snackbar.make(view, "Register here", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
                 FragmentManager fragmentManager = loginFragment.getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 RegisterFragment registerFragment = new RegisterFragment();
-                fragmentTransaction.replace(R.id.content, registerFragment);
+                fragmentTransaction.replace(R.id.login_content, registerFragment);
                 fragmentTransaction.commit();
             }
         };
@@ -116,11 +128,10 @@ public class LoginViewModel extends BaseObservable {
                             JSONObject jsonObject = new JSONObject(response);
                             Toast.makeText(loginFragment.getActivity().getApplicationContext(), jsonObject.getString("response"), Toast.LENGTH_SHORT).show();
                             if(jsonObject.getString("response").equals("Login Successful")){
-                                IndexFragment indexFragment = new IndexFragment();
-                                FragmentTransaction transaction = loginFragment.getFragmentManager().beginTransaction();
-                                transaction.replace(R.id.content, indexFragment); // give your fragment container id in first parameter
-                                transaction.addToBackStack(null);  // if written, this transaction will be added to backstack
-                                transaction.commit();
+                                sessionManager = new SessionManager(loginFragment.getActivity());
+                                sessionManager.createLoginSession(user.getUsername(), user.getPassword());
+                                Intent intent = new Intent(loginFragment.getActivity(), MainActivity.class);
+                                loginFragment.startActivity(intent);
                             }
                             else{
                                 Toast.makeText(loginFragment.getActivity().getApplicationContext(),jsonObject.getString("response"), Toast.LENGTH_LONG).show();
@@ -136,4 +147,5 @@ public class LoginViewModel extends BaseObservable {
             }
         });
     }
+
 }

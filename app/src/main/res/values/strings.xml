@@ -20,4 +20,7 @@
     <string name="add_to_cart">Add to cart</string>
     <string name="product_image">product image</string>
     <string name="category_image">category image</string>
+    <string name="account_settings">Account Settings</string>
+    <string name="view_cart">View Cart</string>
+    <string name="log_out">LogOut</string>
 </resources>
