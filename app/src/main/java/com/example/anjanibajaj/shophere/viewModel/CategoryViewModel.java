@@ -82,7 +82,11 @@ public class CategoryViewModel extends BaseObservable {
 
     @Bindable
     public String getType() {
-        return category.getType();
+        String type = category.getType();
+        // Capitalize first letter of the category type
+        StringBuilder sb = new StringBuilder(type);
+        sb.setCharAt(0, Character.toUpperCase(sb.charAt(0)));
+        return sb.toString();
     }
 
     public void setType(String type) {

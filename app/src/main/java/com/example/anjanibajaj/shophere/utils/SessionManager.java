@@ -45,7 +45,7 @@ public class SessionManager {
         // commit changes
         editor.commit();
 
-        Toast.makeText(context.getApplicationContext(), "Session set for "+ email, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(context.getApplicationContext(), "Session set for "+ email, Toast.LENGTH_SHORT).show();
     }
 
     /**

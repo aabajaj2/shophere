@@ -2,10 +2,15 @@ package com.example.anjanibajaj.shophere.viewModel;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.example.anjanibajaj.shophere.ProductDetailsFragment;
+import com.example.anjanibajaj.shophere.adapters.ViewPagerAdapter;
 import com.example.anjanibajaj.shophere.databinding.FragmentProductDetailsBinding;
 import com.example.anjanibajaj.shophere.model.Product;
+
+import java.util.List;
 
 
 /**
@@ -17,7 +22,6 @@ public class ProductDetailsViewModel extends BaseObservable {
     private Product product;
     private FragmentProductDetailsBinding fragmentProductDetailsBinding;
     private ProductDetailsFragment productDetailsFragment;
-    private ProductDetailsViewModel pdvm;
 
     public ProductDetailsViewModel(Product product, FragmentProductDetailsBinding fragmentProductDetailsBinding, ProductDetailsFragment productDetailsFragment) {
         this.product = product;
@@ -90,4 +94,26 @@ public class ProductDetailsViewModel extends BaseObservable {
         product.setPid(Integer.valueOf(pid));
     }
 
+    @Bindable
+    public List<String> getImageList(){
+        return product.getImageList();
+    }
+
+    public void setAdapterImageViewPager(List<String> images)  {
+        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(images, productDetailsFragment, fragmentProductDetailsBinding);
+        fragmentProductDetailsBinding.pager.setAdapter(viewPagerAdapter);
+    }
+
+    public View.OnClickListener onUserRegisterClicked(){
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addtocartFunction();
+            }
+        };
+    }
+
+    //TODO: Fill this method using session manager
+    private void addtocartFunction() {
+    }
 }

@@ -23,6 +23,7 @@ import android.view.MenuItem;
 import android.view.Window;
 import android.widget.Toast;
 
+import com.example.anjanibajaj.shophere.databinding.ActivityMainBinding;
 import com.example.anjanibajaj.shophere.databinding.FragmentLoginBinding;
 import com.example.anjanibajaj.shophere.databinding.NavHeaderMainBinding;
 import com.example.anjanibajaj.shophere.model.User;
@@ -46,18 +47,16 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         sessionManager = new SessionManager(this);
         if(sessionManager.getUserDetails().get("email")!=null) {
-            HashMap<String, String> user = sessionManager.getUserDetails();
-            Toast.makeText(getApplicationContext(), "Hey1!" + sessionManager.getUserDetails().get("email"), Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Hey! " + sessionManager.getUserDetails().get("email"), Toast.LENGTH_LONG).show();
             fab.hide();
         } else {
             fab.show();
         }
-
         getSupportActionBar().setTitle("Pick your category!");
         IndexFragment indexFragment = new IndexFragment();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.content, indexFragment); // give your fragment container id in first parameter
-        transaction.addToBackStack(null);  // if written, this transaction will be added to backstack
+//        transaction.addToBackStack(null);  // if written, this transaction will be added to backstack
         transaction.commit();
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,7 +67,6 @@ public class MainActivity extends AppCompatActivity
                         .setAction("Action", null).show();
             }
         });
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -143,6 +141,12 @@ public class MainActivity extends AppCompatActivity
             sessionManager.logoutUser();
         } else if (id == R.id.nav_as) {
             title = "Account Settings";
+        } else if (id == R.id.nav_cart) {
+            title = "Your Cart";
+            CartFragment cartFragment = new CartFragment();
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.content, cartFragment); // give your fragment container id in first parameter
+            transaction.commit();
         }
         getSupportActionBar().setTitle(title);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

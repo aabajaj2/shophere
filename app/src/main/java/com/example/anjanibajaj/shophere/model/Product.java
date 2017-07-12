@@ -1,5 +1,7 @@
 package com.example.anjanibajaj.shophere.model;
 
+import java.util.List;
+
 /**
  * Created by Anjani Bajaj on 7/6/2017.
  * Model for the gadgets in the store
@@ -10,6 +12,8 @@ public class Product {
     private String category;
     private String imageUrl;
     private Integer price, pid, cid;
+    private List<String> imageList;
+
 
     public Product(String name, String category, Integer price, Integer pid, Integer cid, String imageUrl) {
         this.name = name;
@@ -27,6 +31,23 @@ public class Product {
         this.cid = cid;
     }
 
+    public Product(String name, String category, Integer price, Integer pid, Integer cid, String imageUrl, List<String> id2) {
+        this.name = name;
+        this.category = category;
+        this.price = price;
+        this.pid = pid;
+        this.cid = cid;
+        this.imageUrl = imageUrl;
+        this.imageList = id2;
+    }
+
+    public List<String> getImageList() {
+        return imageList;
+    }
+
+    public void setImageList(List<String> imageList) {
+        this.imageList = imageList;
+    }
 
     public Integer getCid() {
         return cid;

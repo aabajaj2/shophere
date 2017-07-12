@@ -27,8 +27,10 @@ public class ProductDetailsFragment extends Fragment {
             product.setName(bundle.getString("name"));
             product.setPrice(bundle.getInt("price"));
             product.setCategory(bundle.getString("category"));
+            product.setImageList(bundle.getStringArrayList("imageList"));
         }
         ProductDetailsViewModel productDetailsViewModel = new ProductDetailsViewModel(product, fragmentProductDetailsBinding, this);
+        productDetailsViewModel.setAdapterImageViewPager(product.getImageList());
         fragmentProductDetailsBinding.setPdvm(productDetailsViewModel);
         return fragmentProductDetailsBinding.getRoot();
     }

@@ -157,7 +157,7 @@ public class ProductViewModel extends BaseObservable {
         loadProductDetailsImageMap(productIdList);
         for(int i=0; i<array.length(); i++) {
             Product p = new Product(array.getJSONObject(i).getString("name"), array.getJSONObject(i).getString("category"), (Integer) array.getJSONObject(i).get("price"),
-                    (Integer) array.getJSONObject(i).get("id"), (Integer) array.getJSONObject(i).get("cid"), imageMap.get(array.getJSONObject(i).get("id")));
+                    (Integer) array.getJSONObject(i).get("id"), (Integer) array.getJSONObject(i).get("cid"), imageMap.get(array.getJSONObject(i).get("id")), imageList.get(array.getJSONObject(i).get("id")));
             products.add(p);
             productIdList.add((Integer) array.getJSONObject(i).get("id"));
         }
@@ -217,6 +217,7 @@ public class ProductViewModel extends BaseObservable {
                 bundle.putInt("price", product.getPrice());
                 bundle.putString("category", product.getCategory());
                 bundle.putString("image", product.getImageUrl());
+                bundle.putStringArrayList("imageList", (ArrayList<String>) product.getImageList());
                 productDetailsFragment.setArguments(bundle);
                 fragmentTransaction.replace(R.id.content, productDetailsFragment);
                 fragmentTransaction.commit();
