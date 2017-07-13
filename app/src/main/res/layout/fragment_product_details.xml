@@ -110,11 +110,6 @@
                     android:textSize="20sp"/>
             </TableRow>
 
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-            </TableRow>
-
         </TableLayout>
         <Button android:id="@+id/addtocart"
             android:layout_height="wrap_content"
@@ -132,7 +127,8 @@
             android:layout_marginBottom="8dp"
             app:layout_constraintVertical_bias="1.0"
             android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp" />
+            android:layout_marginEnd="8dp"
+            android:onClick="@{pdvm.onAddtocartClicked()}"/>
     </android.support.constraint.ConstraintLayout>
 
 </FrameLayout>

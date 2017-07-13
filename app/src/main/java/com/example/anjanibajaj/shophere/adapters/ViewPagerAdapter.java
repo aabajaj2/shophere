@@ -38,7 +38,7 @@ public class ViewPagerAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(ViewGroup view, int position) {
         LayoutInflater layoutInflater = LayoutInflater.from(productDetailsFragment.getContext());
-        View itemView = layoutInflater.inflate(R.layout.image_slide, view, false);
+        View itemView = layoutInflater.inflate(R.layout.fragment_image_slide, view, false);
         ImageView imageView = (ImageView) itemView.findViewById(R.id.image);
         view.addView(imageView);
         return itemView;
@@ -51,6 +51,8 @@ public class ViewPagerAdapter extends PagerAdapter {
 
     @Override
     public boolean isViewFromObject(View view, Object object) {
-        return false;
+        return object == view;
     }
+
+
 }

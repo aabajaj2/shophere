@@ -194,14 +194,14 @@ public class ProductViewModel extends BaseObservable {
         Glide.with(view.getContext()).load(url).centerCrop().into(view);
     }
 
-//    private Product getProductDetails(Integer pid){
-//        for (Product p: cproducts) {
-//            if (p.getPid() == pid){
-//                return p;
-//            }
-//        }
-//        return null;
-//    }
+    private Product getProductDetails(Integer pid){
+        for (Product p: cproducts) {
+            if (p.getPid() == pid){
+                return p;
+            }
+        }
+        return null;
+    }
 
     public View.OnClickListener productCardClicked(){
         return new View.OnClickListener() {
@@ -220,6 +220,7 @@ public class ProductViewModel extends BaseObservable {
                 bundle.putStringArrayList("imageList", (ArrayList<String>) product.getImageList());
                 productDetailsFragment.setArguments(bundle);
                 fragmentTransaction.replace(R.id.content, productDetailsFragment);
+                fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
             }
         };

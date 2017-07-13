@@ -176,6 +176,7 @@ public class CategoryViewModel extends BaseObservable {
                 bundle.putString("ctype", type);
                 productFragment.setArguments(bundle);
                 fragmentTransaction.replace(R.id.content, productFragment);
+                fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
             }
         };

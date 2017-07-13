@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity
         IndexFragment indexFragment = new IndexFragment();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.content, indexFragment); // give your fragment container id in first parameter
-//        transaction.addToBackStack(null);  // if written, this transaction will be added to backstack
+        transaction.addToBackStack(null);  // if written, this transaction will be added to backstack
         transaction.commit();
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,6 +123,7 @@ public class MainActivity extends AppCompatActivity
                 FragmentTransaction ft = mFragmentManager.beginTransaction();
                 ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
                 ft.replace(R.id.content, fragment);
+                ft.addToBackStack(null);
                 ft.commit();
             }
         } else {
@@ -145,7 +146,8 @@ public class MainActivity extends AppCompatActivity
             title = "Your Cart";
             CartFragment cartFragment = new CartFragment();
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.content, cartFragment); // give your fragment container id in first parameter
+            transaction.replace(R.id.content, cartFragment);// give your fragment container id in first parameter
+            transaction.addToBackStack(null);
             transaction.commit();
         }
         getSupportActionBar().setTitle(title);
