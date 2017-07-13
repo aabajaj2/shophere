@@ -3,17 +3,14 @@ package com.example.anjanibajaj.shophere.utils;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.example.anjanibajaj.shophere.LoginActivity;
 import com.example.anjanibajaj.shophere.MainActivity;
+import com.example.anjanibajaj.shophere.model.Product;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Set;
-import java.util.StringTokenizer;
 import java.util.TreeSet;
 
 /**
@@ -33,7 +30,7 @@ public class SessionManager {
     private static final String IS_PID_THERE = "check";
     public static final String PIDLIST = "pidList";
 
-    private static final Set<String> pidList =  new TreeSet<>();
+    private static Set<String> pidList;
 
     public SessionManager(Context context) {
         this.context = context;
@@ -43,18 +40,10 @@ public class SessionManager {
     }
 
     public void createLoginSession(String email, String password) {
-        // Storing login value as TRUE
-        editor.putBoolean(IS_LOGGED_IN, true);
-
-        // Storing username in pref
-        editor.putString(EMAIL, email);
-
-        // Storing password in pref
-        editor.putString(PASSWORD, password);
-
-        // commit changes
-        editor.commit();
-
+        editor.putBoolean(IS_LOGGED_IN, true);  // Storing login value as TRUE
+        editor.putString(EMAIL, email);         // Storing username in pref
+        editor.putString(PASSWORD, password);   // Storing password in pref
+        editor.commit();                        // commit changes
 //        Toast.makeText(context.getApplicationContext(), "Session set for "+ email, Toast.LENGTH_SHORT).show();
     }
 
@@ -62,14 +51,13 @@ public class SessionManager {
      * Check login method wil check user login status
      * If false it will redirect user to login page
      * Else won't do anything
+     * user is not logged in redirect him to Login Activity
+      Closing all the Activities
+      Add new Flag to start new Activity ,Staring Login Activity
      */
     public void checkLogin() {
         // Check login status
         if (!this.isLoggedIn()) {
-            // user is not logged in redirect him to Login Activity
-            // Closing all the Activities
-            // Add new Flag to start new Activity
-            // Staring Login Activity
             context.startActivity(new Intent(context, LoginActivity.class)
                     .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                     .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
@@ -77,52 +65,46 @@ public class SessionManager {
     }
 
     // Get Login State
-    public boolean isLoggedIn() {
+    private boolean isLoggedIn() {
         return sharedPreferences.getBoolean(IS_LOGGED_IN, false);
     }
 
     public HashMap<String, String> getUserDetails() {
-        HashMap<String, String> user = new HashMap();
-        // user name
+        HashMap<String, String> user = new HashMap<>();
         user.put(EMAIL, sharedPreferences.getString(EMAIL, null));
-
-        // user password
         user.put(PASSWORD, sharedPreferences.getString(PASSWORD, null));
-
-        // return user
         return user;
     }
 
+     /*After logout redirect user to Main Activity
+     Closing all the Activities
+     Add new Flag to start new Activity
+     Staring Index Activity*/
     public void logoutUser() {
-        // Clearing all data from Shared Preferences
-        editor.clear();
+        editor.clear();                     // Clearing all data from Shared Preferences
         editor.commit();
-
-        // After logout redirect user to Main Activity
-        // Closing all the Activities
-        // Add new Flag to start new Activity
-
-        // Staring Index Activity
         context.startActivity(new Intent(context, MainActivity.class)
                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
     }
 
     public void addTocart(Integer pid) {
-        // Storing PID  value as TRUE
-        editor.putBoolean(IS_PID_THERE, true);
-
-        // Storing pid in a set of Pid
-        pidList.add(String.valueOf(pid));
+        editor.putBoolean(IS_PID_THERE, true);          // Storing PID  value as TRUE
+        pidList = sharedPreferences.getStringSet(PIDLIST, null);
+        if(pidList  == null){
+            pidList = new TreeSet<>();
+            pidList.add(String.valueOf(pid));               // Storing pid in a set of Pid
+        } else {
+            pidList = sharedPreferences.getStringSet(PIDLIST, null);
+            pidList.add(String.valueOf(pid));               // Storing pid in a set of Pid
+        }
         editor.putStringSet(PIDLIST, pidList);
-
-        // commit changes
-        editor.commit();
+        editor.commit();                                        // commit changes
         Toast.makeText(context, "Added to list: "+ pidList.size(), Toast.LENGTH_LONG).show();
     }
 
     public HashMap<String, Set<String>> getProductDetails() {
-        HashMap<String, Set<String>> pdetails = new HashMap();
+        HashMap<String, Set<String>> pdetails = new HashMap<>();
         pdetails.put(PIDLIST, sharedPreferences.getStringSet(PIDLIST, null));
         return pdetails;
     }

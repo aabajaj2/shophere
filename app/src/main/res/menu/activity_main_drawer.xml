@@ -7,6 +7,11 @@
         android:title="@string/view_cart" />
 
     <item
+        android:id="@+id/nav_wish"
+        android:icon="@drawable/ic_menu_gallery"
+        android:title="@string/view_cart" />
+
+    <item
         android:id="@+id/nav_as"
         android:icon="@drawable/ic_menu_manage"
         android:title="@string/account_settings" />

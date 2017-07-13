@@ -143,12 +143,14 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_as) {
             title = "Account Settings";
         } else if (id == R.id.nav_cart) {
-            title = "Your Cart";
+            title = "Cart Details";
             CartFragment cartFragment = new CartFragment();
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.content, cartFragment);// give your fragment container id in first parameter
             transaction.addToBackStack(null);
             transaction.commit();
+        }  else if (id == R.id.nav_wish) {
+            title = "WishList";
         }
         getSupportActionBar().setTitle(title);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
