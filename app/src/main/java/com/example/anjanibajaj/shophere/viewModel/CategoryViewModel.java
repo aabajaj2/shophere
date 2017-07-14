@@ -117,7 +117,7 @@ public class CategoryViewModel extends BaseObservable {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.d("R f c:", response);
+//                        Log.d("R f c:", response);
                         try {
                             List<Category> s = parseJSONCategory(response);
                             setAdapterCategory(s);

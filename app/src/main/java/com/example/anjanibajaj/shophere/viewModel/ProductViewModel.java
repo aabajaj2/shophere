@@ -17,15 +17,13 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.bumptech.glide.Glide;
-import com.example.anjanibajaj.shophere.BR;
-import com.example.anjanibajaj.shophere.IndexFragment;
 import com.example.anjanibajaj.shophere.ProductDetailsFragment;
 import com.example.anjanibajaj.shophere.ProductFragment;
 import com.example.anjanibajaj.shophere.R;
 import com.example.anjanibajaj.shophere.adapters.ProductsAdapter;
 import com.example.anjanibajaj.shophere.databinding.FragmentProductBinding;
-import com.example.anjanibajaj.shophere.model.Category;
 import com.example.anjanibajaj.shophere.model.Product;
+import com.example.anjanibajaj.shophere.utils.DatabaseAsync;
 import com.example.anjanibajaj.shophere.utils.VolleyNetwork;
 
 import org.json.JSONArray;
@@ -129,7 +127,7 @@ public class ProductViewModel extends BaseObservable {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.d("R:", response);
+//                        Log.d("R:", response);
                         try {
                             cproducts = parseJSONProduct(response, cid);
                             setAdapterProduct(cproducts);
@@ -145,6 +143,12 @@ public class ProductViewModel extends BaseObservable {
         });
     }
 
+    /*
+    This method pares the JSON response received from the Inventory table in MongoDb.
+    It creates a database using Room Persistence storage library, DatabaseAsync class is a new Thread that adds all the products entries in ProductTable, which will
+    be used to display the products throughout the application,
+    Returns the List of products according to a particular category.
+     */
     private List<Product> parseJSONProduct(String response, Integer cid) throws JSONException {
         JSONObject jsonObject = new JSONObject(response);
         JSONArray array = jsonObject.getJSONArray("result");
@@ -161,6 +165,9 @@ public class ProductViewModel extends BaseObservable {
             products.add(p);
             productIdList.add((Integer) array.getJSONObject(i).get("id"));
         }
+
+        new DatabaseAsync(products, productFragment.getActivity().getApplicationContext()).execute();
+
         List<Product> cproducts = new ArrayList<>();
         Log.d("Size of products", String.valueOf(products.size()));
         for (int i=0; i<products.size(); i++) {

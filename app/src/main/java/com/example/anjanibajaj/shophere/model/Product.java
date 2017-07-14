@@ -1,5 +1,7 @@
 package com.example.anjanibajaj.shophere.model;
 
+import android.arch.persistence.room.Ignore;
+
 import java.util.List;
 
 /**
@@ -12,8 +14,8 @@ public class Product {
     private String category;
     private String imageUrl;
     private Integer price, pid, cid;
+    @Ignore
     private List<String> imageList;
-
 
     public Product(String name, String category, Integer price, Integer pid, Integer cid, String imageUrl) {
         this.name = name;
@@ -23,6 +25,7 @@ public class Product {
         this.cid = cid;
         this.imageUrl = imageUrl;
     }
+    @Ignore
     public Product(String name, String category, Integer price, Integer pid, Integer cid) {
         this.name = name;
         this.category = category;
@@ -30,7 +33,7 @@ public class Product {
         this.pid = pid;
         this.cid = cid;
     }
-
+    @Ignore
     public Product(String name, String category, Integer price, Integer pid, Integer cid, String imageUrl, List<String> id2) {
         this.name = name;
         this.category = category;
