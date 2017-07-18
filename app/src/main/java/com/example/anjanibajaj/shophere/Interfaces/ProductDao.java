@@ -31,6 +31,6 @@ public interface ProductDao {
     ProductTable getSingleRecord(int pid);
 
     @Delete
-    void deleteUsers(ProductTable... productTables);
+    void deleteProducts(ProductTable... productTables);
 
 }

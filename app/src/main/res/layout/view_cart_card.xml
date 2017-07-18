@@ -1,6 +1,5 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
             name="cavm"
@@ -9,7 +8,7 @@
 
 <LinearLayout
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="76dp">
@@ -21,7 +20,7 @@
                 android:id="@+id/textView"
                 android:layout_width="181dp"
                 android:layout_height="64dp"
-                android:text="@={cavm.product.name}"
+                android:text="@{cavm.product.name}"
                 app:layout_constraintTop_toTopOf="parent"
                 android:layout_marginTop="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -37,7 +36,7 @@
                 android:id="@+id/imageView4"
                 android:layout_width="97dp"
                 android:layout_height="64dp"
-                app:srcCompat="@drawable/cart"
+                app:image = "@{cavm.imageUrl}"
                 android:layout_marginEnd="0dp"
                 android:layout_marginStart="8dp"
                 app:layout_constraintLeft_toLeftOf="parent"
@@ -52,7 +51,7 @@
                 android:id="@+id/textView10"
                 android:layout_width="92dp"
                 android:layout_height="65dp"
-                android:text="hi"
+                android:text="@{cavm.productPrice}"
                 app:layout_constraintTop_toTopOf="parent"
                 android:layout_marginTop="8dp"
                 app:layout_constraintLeft_toRightOf="@+id/textView"

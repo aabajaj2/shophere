@@ -45,18 +45,6 @@ public class ProductDetailsViewModel extends BaseObservable {
         return fragmentProductDetailsBinding;
     }
 
-    public void setFragmentProductDetailsBinding(FragmentProductDetailsBinding fragmentProductDetailsBinding) {
-        this.fragmentProductDetailsBinding = fragmentProductDetailsBinding;
-    }
-
-    public ProductDetailsFragment getProductDetailsFragment() {
-        return productDetailsFragment;
-    }
-
-    public void setProductDetailsFragment(ProductDetailsFragment productDetailsFragment) {
-        this.productDetailsFragment = productDetailsFragment;
-    }
-
     @Bindable
     public String getName() {
         return "Name: "+ product.getName();
@@ -105,7 +93,6 @@ public class ProductDetailsViewModel extends BaseObservable {
 
     public void setAdapterImageViewPager(List<String> images)  {
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(images, productDetailsFragment, fragmentProductDetailsBinding);
-//        Toast.makeText(productDetailsFragment.getActivity().getApplicationContext(), images.get(0), Toast.LENGTH_SHORT).show();
         fragmentProductDetailsBinding.pager.setAdapter(viewPagerAdapter);
     }
 

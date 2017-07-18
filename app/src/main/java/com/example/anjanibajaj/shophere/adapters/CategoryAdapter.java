@@ -17,10 +17,11 @@ import java.util.List;
 
 /**
  * Created by Anjani Bajaj on 7/8/2017.
+ *
  */
 
 public class CategoryAdapter extends RecyclerView.Adapter{
-    List<Category> categoryList;
+    private List<Category> categoryList;
     private IndexFragment indexFragment;
     private FragmentIndexBinding fragmentIndexBinding;
 
@@ -41,7 +42,6 @@ public class CategoryAdapter extends RecyclerView.Adapter{
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         CategoryViewModel categoryViewModel = new CategoryViewModel(categoryList.get(position), indexFragment, fragmentIndexBinding);
-        myViewHolder myViewHolder = (myViewHolder) holder;
 //        Integer cid = categoryViewModel.getCid();
 //        String type = categoryViewModel.getType();
         Category category = categoryViewModel.getCategory();

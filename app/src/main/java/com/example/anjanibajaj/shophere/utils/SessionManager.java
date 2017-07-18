@@ -3,6 +3,7 @@ package com.example.anjanibajaj.shophere.utils;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.example.anjanibajaj.shophere.LoginActivity;
@@ -88,6 +89,8 @@ public class SessionManager {
                 .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
     }
 
+
+
     public void addTocart(Integer pid) {
         editor.putBoolean(IS_PID_THERE, true);          // Storing PID  value as TRUE
         pidList = sharedPreferences.getStringSet(PIDLIST, null);
@@ -107,5 +110,11 @@ public class SessionManager {
         HashMap<String, Set<String>> pdetails = new HashMap<>();
         pdetails.put(PIDLIST, sharedPreferences.getStringSet(PIDLIST, null));
         return pdetails;
+    }
+
+    public void clearCart(){
+        Log.d("Before clearing", String.valueOf(pidList.size()));
+        sharedPreferences = context.getSharedPreferences(PIDLIST, 0);
+        pidList.clear();
     }
 }

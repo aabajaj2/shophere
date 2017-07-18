@@ -3,10 +3,13 @@ package com.example.anjanibajaj.shophere.adapters;
 import android.databinding.BaseObservable;
 import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.anjanibajaj.shophere.CartFragment;
+import com.example.anjanibajaj.shophere.R;
 import com.example.anjanibajaj.shophere.databinding.FragmentCartBinding;
 import com.example.anjanibajaj.shophere.databinding.ViewCartCardBinding;
 import com.example.anjanibajaj.shophere.model.Product;
@@ -32,22 +35,25 @@ public class CartAdapter extends RecyclerView.Adapter {
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return null;
+        ViewCartCardBinding binding = DataBindingUtil.inflate(
+                LayoutInflater.from(parent.getContext()),
+                R.layout.view_cart_card, parent, false);
+        return new myViewHolder(binding.getRoot());
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         CartViewModel cartViewModel = new CartViewModel(products.get(position), cartFragment, fcb);
-        myViewHolder myViewHolder = (myViewHolder) holder;
-        holder.itemView.setTag(cartViewModel.getProduct());
+        Log.d("IN Adapterrrrr", String.valueOf(products.size()));
         ViewCartCardBinding binding = ((myViewHolder) holder).ccb;
         binding.setCavm(cartViewModel);
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return products.size();
     }
+
     private class myViewHolder extends RecyclerView.ViewHolder{
         ViewCartCardBinding ccb;
         myViewHolder(View itemView) {
