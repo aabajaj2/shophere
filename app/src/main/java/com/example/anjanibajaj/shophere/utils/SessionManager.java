@@ -25,6 +25,7 @@ public class SessionManager {
     private Context context;
 
     private static final String LOGIN = "login";
+    private static final String CART = "cart";
     private static final String IS_LOGGED_IN = "isLoggedin";
     private static final String EMAIL = "email";
     private static final String PASSWORD = "password";
@@ -89,10 +90,10 @@ public class SessionManager {
                 .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
     }
 
-
-
     public void addTocart(Integer pid) {
-        editor.putBoolean(IS_PID_THERE, true);          // Storing PID  value as TRUE
+        sharedPreferences = context.getSharedPreferences(CART, 0);
+        SharedPreferences.Editor editor2 = sharedPreferences.edit();
+        editor2.putBoolean(IS_PID_THERE, true);          // Storing PID  value as TRUE
         pidList = sharedPreferences.getStringSet(PIDLIST, null);
         if(pidList  == null){
             pidList = new TreeSet<>();
@@ -101,12 +102,13 @@ public class SessionManager {
             pidList = sharedPreferences.getStringSet(PIDLIST, null);
             pidList.add(String.valueOf(pid));               // Storing pid in a set of Pid
         }
-        editor.putStringSet(PIDLIST, pidList);
-        editor.commit();                                        // commit changes
+        editor2.putStringSet(PIDLIST, pidList);
+        editor2.apply();                                        // commit changes
         Toast.makeText(context, "Added to list: "+ pidList.size(), Toast.LENGTH_LONG).show();
     }
 
     public HashMap<String, Set<String>> getProductDetails() {
+        sharedPreferences = context.getSharedPreferences(CART, 0);
         HashMap<String, Set<String>> pdetails = new HashMap<>();
         pdetails.put(PIDLIST, sharedPreferences.getStringSet(PIDLIST, null));
         return pdetails;
@@ -114,7 +116,7 @@ public class SessionManager {
 
     public void clearCart(){
         Log.d("Before clearing", String.valueOf(pidList.size()));
-        sharedPreferences = context.getSharedPreferences(PIDLIST, 0);
+        sharedPreferences = context.getSharedPreferences(CART, 0);
         pidList.clear();
     }
 }
