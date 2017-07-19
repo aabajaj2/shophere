@@ -91,10 +91,10 @@ public class ProductDetailsViewModel extends BaseObservable {
         return product.getImageList();
     }
 
-    public void setAdapterImageViewPager(List<String> images)  {
+    /*public void setAdapterImageViewPager(List<String> images)  {
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(images, productDetailsFragment, fragmentProductDetailsBinding);
         fragmentProductDetailsBinding.pager.setAdapter(viewPagerAdapter);
-    }
+    }*/
 
     public View.OnClickListener onAddtocartClicked(){
         return new View.OnClickListener() {

@@ -44,7 +44,7 @@ public class CartAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         CartViewModel cartViewModel = new CartViewModel(products.get(position), cartFragment, fcb);
-        Log.d("IN Adapterrrrr", String.valueOf(products.size()));
+        Log.d("In Adapter", String.valueOf(products.size()));
         ViewCartCardBinding binding = ((myViewHolder) holder).ccb;
         binding.setCavm(cartViewModel);
     }

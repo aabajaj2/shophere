@@ -53,6 +53,7 @@ public class CartViewModel extends BaseObservable {
 
     @Bindable
     public String getProductPrice() {
+        Log.d("PP", String.valueOf(product.getPrice()));
         return "$"+String.valueOf(product.getPrice());
     }
 
@@ -62,7 +63,6 @@ public class CartViewModel extends BaseObservable {
 
     @BindingAdapter({"image"})
     public static void loadImage(ImageView view, String url) {
-        Log.d("Image url from glide", url);
         Glide.with(view.getContext()).load(url).centerCrop().into(view);
     }
 
@@ -71,24 +71,18 @@ public class CartViewModel extends BaseObservable {
         return product.getImageUrl();
     }
 
-    public Set<String> getCartDetails() throws ExecutionException, InterruptedException {
+    public void getCartDetails() throws ExecutionException, InterruptedException {
         SessionManager sessionManager = new SessionManager(cartFragment.getActivity());
-        if (sessionManager.getProductDetails().get(SessionManager.PIDLIST) != null) {
-            Toast.makeText(cartFragment.getActivity().getApplicationContext(), "SIZE OF CART=" + String.valueOf(sessionManager.getProductDetails().get(SessionManager.PIDLIST).size()), Toast.LENGTH_LONG).show();
-            Set<String> pidList = sessionManager.getProductDetails().get(SessionManager.PIDLIST);
-            cartProducts = new FetchProducts(pidList).execute().get();
-            Log.d("Cp getcartdetails ", String.valueOf(cartProducts.size()));
+        Set<String> sessionPidList = sessionManager.getProductDetails().get(SessionManager.PIDLIST);
+        if (sessionPidList != null) {
+            Toast.makeText(cartFragment.getActivity().getApplicationContext(), "Size of your cart is " + String.valueOf(sessionPidList.size()), Toast.LENGTH_SHORT).show();
+            cartProducts = new FetchProducts(sessionPidList).execute().get();
             CartAdapter cartAdapter = new CartAdapter(cartProducts, cartFragment, fcb);
             fcb.recyclerView3.setAdapter(cartAdapter);
-            return sessionManager.getProductDetails().get(SessionManager.PIDLIST);
-        } else {
-            Toast.makeText(cartFragment.getActivity().getApplicationContext(), "Your cart is empty!", Toast.LENGTH_LONG).show();
-            return null;
         }
     }
 
     private class FetchProducts extends AsyncTask<Void,Void, List<Product>> {
-
         private Set<String> pidList;
         AppDatabase db;
 
@@ -118,9 +112,7 @@ public class CartViewModel extends BaseObservable {
             public void onClick(View view) {
                 try {
                     clearCartFunction();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
+                } catch (ExecutionException | InterruptedException e) {
                     e.printStackTrace();
                 }
             }

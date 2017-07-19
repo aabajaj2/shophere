@@ -26,6 +26,7 @@ public class SessionManager {
 
     private static final String LOGIN = "login";
     private static final String CART = "cart";
+    private static final String WISHLIST = "wishlist";
     private static final String IS_LOGGED_IN = "isLoggedin";
     private static final String EMAIL = "email";
     private static final String PASSWORD = "password";
@@ -83,8 +84,9 @@ public class SessionManager {
      Add new Flag to start new Activity
      Staring Index Activity*/
     public void logoutUser() {
-        editor.clear();                     // Clearing all data from Shared Preferences
+        editor.clear();         // Clearing all data from Shared Preferences
         editor.commit();
+        clearCart();
         context.startActivity(new Intent(context, MainActivity.class)
                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
@@ -92,8 +94,7 @@ public class SessionManager {
 
     public void addTocart(Integer pid) {
         sharedPreferences = context.getSharedPreferences(CART, 0);
-        SharedPreferences.Editor editor2 = sharedPreferences.edit();
-        editor2.putBoolean(IS_PID_THERE, true);          // Storing PID  value as TRUE
+        editor.putBoolean(IS_PID_THERE, true);          // Storing PID  value as TRUE
         pidList = sharedPreferences.getStringSet(PIDLIST, null);
         if(pidList  == null){
             pidList = new TreeSet<>();
@@ -102,21 +103,26 @@ public class SessionManager {
             pidList = sharedPreferences.getStringSet(PIDLIST, null);
             pidList.add(String.valueOf(pid));               // Storing pid in a set of Pid
         }
-        editor2.putStringSet(PIDLIST, pidList);
-        editor2.apply();                                        // commit changes
-        Toast.makeText(context, "Added to list: "+ pidList.size(), Toast.LENGTH_LONG).show();
+        editor.putStringSet(PIDLIST, pidList);
+        editor.apply();                                     // commit changes
+
+        Toast.makeText(context, "Added to list, size: "+ pidList.size(), Toast.LENGTH_LONG).show();
     }
 
     public HashMap<String, Set<String>> getProductDetails() {
         sharedPreferences = context.getSharedPreferences(CART, 0);
-        HashMap<String, Set<String>> pdetails = new HashMap<>();
-        pdetails.put(PIDLIST, sharedPreferences.getStringSet(PIDLIST, null));
-        return pdetails;
+        HashMap<String, Set<String>> productDetails = new HashMap<>();
+        productDetails.put(PIDLIST, sharedPreferences.getStringSet(PIDLIST, null));
+        return productDetails;
     }
 
     public void clearCart(){
-        Log.d("Before clearing", String.valueOf(pidList.size()));
         sharedPreferences = context.getSharedPreferences(CART, 0);
-        pidList.clear();
+        pidList = sharedPreferences.getStringSet(PIDLIST, null);
+        if(pidList!=null){
+            pidList.clear();
+        }else {
+            Toast.makeText(context.getApplicationContext(), "Your cart is already empty!", Toast.LENGTH_LONG).show();
+        }
     }
 }
