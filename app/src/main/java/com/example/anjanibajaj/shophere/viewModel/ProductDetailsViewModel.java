@@ -1,14 +1,10 @@
 package com.example.anjanibajaj.shophere.viewModel;
 
-import android.content.SharedPreferences;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.anjanibajaj.shophere.ProductDetailsFragment;
-import com.example.anjanibajaj.shophere.adapters.ViewPagerAdapter;
 import com.example.anjanibajaj.shophere.databinding.FragmentProductDetailsBinding;
 import com.example.anjanibajaj.shophere.model.Product;
 import com.example.anjanibajaj.shophere.utils.SessionManager;
@@ -26,6 +22,7 @@ public class ProductDetailsViewModel extends BaseObservable {
     private FragmentProductDetailsBinding fragmentProductDetailsBinding;
     private ProductDetailsFragment productDetailsFragment;
     private SessionManager sessionManager;
+    private String flag = "false";
 
     public ProductDetailsViewModel(Product product, FragmentProductDetailsBinding fragmentProductDetailsBinding, ProductDetailsFragment productDetailsFragment) {
         this.product = product;
@@ -48,6 +45,16 @@ public class ProductDetailsViewModel extends BaseObservable {
     @Bindable
     public String getName() {
         return "Name: "+ product.getName();
+    }
+
+    @Bindable
+    public String getFlag() {
+        return flag;
+    }
+
+    public void setFlag(String flag) {
+        this.flag = flag;
+        notifyChange();
     }
 
     @Bindable
@@ -100,13 +107,18 @@ public class ProductDetailsViewModel extends BaseObservable {
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addtocartFunction(product.getPid());
+                sessionManager= new SessionManager(productDetailsFragment.getActivity());
+                sessionManager.addTocart(product.getPid());
             }
         };
     }
 
-    private void addtocartFunction(Integer pid) {
-        sessionManager = new SessionManager(productDetailsFragment.getActivity());
-        sessionManager.addTocart(pid);
+    public View.OnClickListener onHeartClicked(){
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sessionManager= new SessionManager(productDetailsFragment.getActivity());
+                sessionManager.addToWishList(product.getPid());            }
+        };
     }
 }

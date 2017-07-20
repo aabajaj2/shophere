@@ -16,7 +16,7 @@
             android:layout_height="match_parent">
 
             <TableLayout
-                android:layout_width="361dp"
+                android:layout_width="match_parent"
                 android:layout_height="155dp"
                 android:layout_marginBottom="8dp"
                 android:layout_marginTop="8dp"
@@ -84,7 +84,8 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_marginBottom="8dp"
-                app:layout_constraintHorizontal_bias="0.974" />
+                app:layout_constraintHorizontal_bias="0.974"
+                android:onClick="@{pdvm.onHeartClicked()}"/>
 
             <Button android:id="@+id/addtocart"
                 android:layout_height="43dp"

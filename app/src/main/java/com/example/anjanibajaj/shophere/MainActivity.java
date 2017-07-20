@@ -139,6 +139,11 @@ public class MainActivity extends AppCompatActivity
             transaction.commit();
         }  else if (id == R.id.nav_wish) {
             title = "WishList";
+            WishListFragment wishListFragment = new WishListFragment();
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.content, wishListFragment);// give your fragment container id in first parameter
+            transaction.addToBackStack(null);
+            transaction.commit();
         }
         getSupportActionBar().setTitle(title);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

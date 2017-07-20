@@ -25,15 +25,19 @@ public class SessionManager {
     private Context context;
 
     private static final String LOGIN = "login";
-    private static final String CART = "cart";
-    private static final String WISHLIST = "wishlist";
+    public static final String CART = "cart";
+    public static final String WISHLIST = "wishlist";
     private static final String IS_LOGGED_IN = "isLoggedin";
     private static final String EMAIL = "email";
     private static final String PASSWORD = "password";
     private static final String IS_PID_THERE = "check";
+    private static final String IS_WPID_THERE = "check";
     public static final String PIDLIST = "pidList";
+    public static final String WPIDLIST = "wpidList";
 
     private static Set<String> pidList;
+    private static Set<String> wpidList;
+
 
     public SessionManager(Context context) {
         this.context = context;
@@ -47,29 +51,6 @@ public class SessionManager {
         editor.putString(EMAIL, email);         // Storing username in pref
         editor.putString(PASSWORD, password);   // Storing password in pref
         editor.commit();                        // commit changes
-//        Toast.makeText(context.getApplicationContext(), "Session set for "+ email, Toast.LENGTH_SHORT).show();
-    }
-
-    /**
-     * Check login method wil check user login status
-     * If false it will redirect user to login page
-     * Else won't do anything
-     * user is not logged in redirect him to Login Activity
-      Closing all the Activities
-      Add new Flag to start new Activity ,Staring Login Activity
-     */
-    public void checkLogin() {
-        // Check login status
-        if (!this.isLoggedIn()) {
-            context.startActivity(new Intent(context, LoginActivity.class)
-                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                    .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-        }
-    }
-
-    // Get Login State
-    private boolean isLoggedIn() {
-        return sharedPreferences.getBoolean(IS_LOGGED_IN, false);
     }
 
     public HashMap<String, String> getUserDetails() {
@@ -79,10 +60,6 @@ public class SessionManager {
         return user;
     }
 
-     /*After logout redirect user to Main Activity
-     Closing all the Activities
-     Add new Flag to start new Activity
-     Staring Index Activity*/
     public void logoutUser() {
         editor.clear();         // Clearing all data from Shared Preferences
         editor.commit();
@@ -93,7 +70,7 @@ public class SessionManager {
     }
 
     public void addTocart(Integer pid) {
-        sharedPreferences = context.getSharedPreferences(CART, 0);
+//        sharedPreferences = context.getSharedPreferences(CART, 0);
         editor.putBoolean(IS_PID_THERE, true);          // Storing PID  value as TRUE
         pidList = sharedPreferences.getStringSet(PIDLIST, null);
         if(pidList  == null){
@@ -105,24 +82,47 @@ public class SessionManager {
         }
         editor.putStringSet(PIDLIST, pidList);
         editor.apply();                                     // commit changes
-
         Toast.makeText(context, "Added to list, size: "+ pidList.size(), Toast.LENGTH_LONG).show();
     }
 
-    public HashMap<String, Set<String>> getProductDetails() {
-        sharedPreferences = context.getSharedPreferences(CART, 0);
+    public HashMap<String, Set<String>> getProductDetails(String list) {
         HashMap<String, Set<String>> productDetails = new HashMap<>();
-        productDetails.put(PIDLIST, sharedPreferences.getStringSet(PIDLIST, null));
+        productDetails.put(list, sharedPreferences.getStringSet(list, null));
         return productDetails;
     }
 
     public void clearCart(){
-        sharedPreferences = context.getSharedPreferences(CART, 0);
         pidList = sharedPreferences.getStringSet(PIDLIST, null);
         if(pidList!=null){
             pidList.clear();
         }else {
-            Toast.makeText(context.getApplicationContext(), "Your cart is already empty!", Toast.LENGTH_LONG).show();
+            Toast.makeText(context.getApplicationContext(), "Your cart is empty!", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public void addToWishList(Integer pid) {
+        wpidList = sharedPreferences.getStringSet(WPIDLIST, null);
+
+        if(wpidList  == null){
+            wpidList = new TreeSet<>();
+            wpidList.add(String.valueOf(pid));// Storing pid in a new TreeSet of Pid
+
+        } else {
+            wpidList = sharedPreferences.getStringSet(WPIDLIST, null);
+            wpidList.add(String.valueOf(pid));               // Storing pid in the old set of Pids
+        }
+
+        editor.putStringSet(WPIDLIST, wpidList);
+        editor.commit();                                     // commit changes
+        Toast.makeText(context, "Added to wishList, size: "+ wpidList.size(), Toast.LENGTH_SHORT).show();
+    }
+
+    public void clearWishList(){
+        pidList = sharedPreferences.getStringSet(WPIDLIST, null);
+        if(wpidList!=null){
+            wpidList.clear();
+        }else {
+            Toast.makeText(context.getApplicationContext(), "Your wishlist is empty!", Toast.LENGTH_LONG).show();
         }
     }
 }

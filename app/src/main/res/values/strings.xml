@@ -24,4 +24,7 @@
     <string name="view_cart">View Cart</string>
     <string name="log_out">LogOut</string>
     <string name="wish">WishList</string>
+    <string name="clear_cart">Clear Cart</string>
+    <string name="move_to_cart">Move to cart</string>
+    <string name="proceed_to_checkout">Proceed to checkout</string>
 </resources>

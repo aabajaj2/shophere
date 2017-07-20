@@ -24,7 +24,7 @@ public class ProductTable {
 
     private int cid;
     private String name;
-    private int price;
+    private Integer price;
     private String imageUrl;
 
     public String getCategory() {
@@ -53,11 +53,11 @@ public class ProductTable {
         this.pid = pid;
     }
 
-    public int getPrice() {
+    public Integer getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(Integer price) {
         this.price = price;
     }
 

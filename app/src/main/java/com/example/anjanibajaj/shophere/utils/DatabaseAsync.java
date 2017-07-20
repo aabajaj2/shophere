@@ -40,17 +40,17 @@ public class DatabaseAsync extends AsyncTask<Void, Void, Void> {
             pt = new ProductTable();
             pt.setPid(p.getPid());
             pt.setName(p.getName());
-            Log.d("Da call price", String.valueOf(p.getPrice()));
             pt.setPrice(p.getPrice());
             pt.setCategory(p.getCategory());
             pt.setCid(p.getCid());
             pt.setImageUrl(p.getImageUrl());
+            db.productDao().deleteProducts(pt);
             //Check is pid is unique, i.e. if the table already contains the entry.
             if(db.productDao().getSingleRecord(p.getPid()) == null){
                 db.productDao().insertOnlySingleRecord(pt);
             }
         }
-        Log.d("Size of pt from da:", String.valueOf(db.productDao().fetchAllData().size()));
+        Log.d("Size of pt from da", String.valueOf(db.productDao().fetchAllData().size()));
         return null;
     }
 

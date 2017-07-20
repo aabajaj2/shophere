@@ -186,6 +186,16 @@ public class ProductViewModel extends BaseObservable {
                     break;
                 case 122: imageMap.put(i, "https://cnet2.cbsistatic.com/img/8YI9KWWu59TgqpOnOT7ev4Zww6M=/270x203/2017/01/24/a5a951ec-acfa-4ecb-9e2c-2ebaf61d0283/oneplus-3t-header.jpg");
                     break;
+                case 127: imageMap.put(i, "https://store.storeimages.cdn-apple.com/4974/as-images.apple.com/is/image/AppleInc/aos/published/images/i/ph/iphone7/plus/iphone7-plus-black-select-2016?wid=300&hei=300&fmt=png-alpha&qlt=95&.v=1472430090682");
+                    break;
+                case 125: imageMap.put(i, "http://www.samsung.com/uk/consumer-images/product/galaxy-gear/2014/SM-V7000ZKABTU/SM-V7000ZKABTU-71980-0.jpg");
+                    break;
+                case 123: imageMap.put(i, "http://i-loveshare.com/wp-content/uploads/2016/02/sony-4k-tv.jpg");
+                    break;
+                case 124: imageMap.put(i, "http://4k.com/wp-content/uploads/2015/08/lg-65eg9600-2-1500x1000.jpg");
+                    break;
+                case 121: imageMap.put(i, "http://www.img.lirent.net/2012/10/ipad2-mini-apple-new-imac-software-computer-design-ipad-iphone-free-ios07.jpg");
+                    break;
                 default:
                     imageMap.put(i, "http://www.mystore.no/wp-content/themes/Avada-child-2.0/images/2014/495.png");
             }
@@ -198,7 +208,7 @@ public class ProductViewModel extends BaseObservable {
     }
     @BindingAdapter({"image"})
     public static void loadImage(ImageView view, String url) {
-        Glide.with(view.getContext()).load(url).centerCrop().into(view);
+        Glide.with(view.getContext()).load(url).crossFade(2).into(view);
     }
 
     private Product getProductDetails(Integer pid){

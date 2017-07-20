@@ -5,22 +5,18 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.databinding.BindingAdapter;
 import android.os.AsyncTask;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.anjanibajaj.shophere.CartFragment;
-import com.example.anjanibajaj.shophere.IndexFragment;
-import com.example.anjanibajaj.shophere.R;
 import com.example.anjanibajaj.shophere.adapters.CartAdapter;
 import com.example.anjanibajaj.shophere.databinding.FragmentCartBinding;
 import com.example.anjanibajaj.shophere.model.Product;
 import com.example.anjanibajaj.shophere.model.ProductTable;
 import com.example.anjanibajaj.shophere.utils.AppDatabase;
+import com.example.anjanibajaj.shophere.utils.FetchProducts;
 import com.example.anjanibajaj.shophere.utils.SessionManager;
 
 import java.util.ArrayList;
@@ -38,7 +34,6 @@ public class CartViewModel extends BaseObservable {
     private CartFragment cartFragment;
     private FragmentCartBinding fcb;
     private List<Product> cartProducts;
-    private String price;
 
     public CartViewModel(Product product, CartFragment cartFragment, FragmentCartBinding fragmentCartBinding) {
         this.product = product;
@@ -51,9 +46,12 @@ public class CartViewModel extends BaseObservable {
         return product;
     }
 
+    public void setProduct(Product product){
+        this.product = product;
+    }
+
     @Bindable
     public String getProductPrice() {
-        Log.d("PP", String.valueOf(product.getPrice()));
         return "$"+String.valueOf(product.getPrice());
     }
 
@@ -73,36 +71,12 @@ public class CartViewModel extends BaseObservable {
 
     public void getCartDetails() throws ExecutionException, InterruptedException {
         SessionManager sessionManager = new SessionManager(cartFragment.getActivity());
-        Set<String> sessionPidList = sessionManager.getProductDetails().get(SessionManager.PIDLIST);
+        Set<String> sessionPidList = sessionManager.getProductDetails(SessionManager.PIDLIST).get(SessionManager.PIDLIST);
         if (sessionPidList != null) {
             Toast.makeText(cartFragment.getActivity().getApplicationContext(), "Size of your cart is " + String.valueOf(sessionPidList.size()), Toast.LENGTH_SHORT).show();
-            cartProducts = new FetchProducts(sessionPidList).execute().get();
+            cartProducts = new FetchProducts(sessionPidList, cartFragment.getContext()).execute().get();
             CartAdapter cartAdapter = new CartAdapter(cartProducts, cartFragment, fcb);
             fcb.recyclerView3.setAdapter(cartAdapter);
-        }
-    }
-
-    private class FetchProducts extends AsyncTask<Void,Void, List<Product>> {
-        private Set<String> pidList;
-        AppDatabase db;
-
-        FetchProducts(Set<String> pidList) {
-            this.pidList = pidList;
-        }
-
-        @Override
-        protected List<Product> doInBackground(Void... voids) {
-            cartProducts = new ArrayList<>();
-            db = Room.databaseBuilder(cartFragment.getActivity().getApplicationContext(),
-                    AppDatabase.class, "product-db").build();
-            ProductTable pt;
-            for (String p : pidList) {
-                pt = db.productDao().getSingleRecord(Integer.parseInt(p));
-                Product pro = new Product(pt.getName(), pt.getCategory(), pt.getPrice(), pt.getPid(), pt.getCid(), pt.getImageUrl());
-                Log.d("price in cavm", String.valueOf(pt.getPrice()));
-                cartProducts.add(pro);
-            }
-            return cartProducts;
         }
     }
 
