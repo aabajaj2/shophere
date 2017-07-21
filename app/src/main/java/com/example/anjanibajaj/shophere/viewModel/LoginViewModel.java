@@ -1,11 +1,8 @@
 package com.example.anjanibajaj.shophere.viewModel;
 
-import com.example.anjanibajaj.shophere.IndexFragment;
 import com.example.anjanibajaj.shophere.R;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.support.annotation.NonNull;
@@ -48,10 +45,6 @@ public class LoginViewModel extends BaseObservable {
         this.user = user;
         this.fragmentLoginBinding = fragmentLoginBinding;
         this.loginFragment = loginFragment;
-    }
-
-    public LoginViewModel(User user){
-        this.user = user;
     }
 
     public User getUser() {

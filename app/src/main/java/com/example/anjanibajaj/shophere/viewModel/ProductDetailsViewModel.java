@@ -2,6 +2,7 @@ package com.example.anjanibajaj.shophere.viewModel;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.support.design.widget.Snackbar;
 import android.view.View;
 
 import com.example.anjanibajaj.shophere.ProductDetailsFragment;
@@ -109,6 +110,8 @@ public class ProductDetailsViewModel extends BaseObservable {
             public void onClick(View view) {
                 sessionManager= new SessionManager(productDetailsFragment.getActivity());
                 sessionManager.addTocart(product.getPid());
+                //noinspection ConstantConditions
+                Snackbar.make(productDetailsFragment.getView(), product.getName()+" added to cart", Snackbar.LENGTH_LONG).show();
             }
         };
     }
@@ -118,7 +121,10 @@ public class ProductDetailsViewModel extends BaseObservable {
             @Override
             public void onClick(View view) {
                 sessionManager= new SessionManager(productDetailsFragment.getActivity());
-                sessionManager.addToWishList(product.getPid());            }
+                sessionManager.addToWishList(product.getPid());
+                //noinspection ConstantConditions
+                Snackbar.make(productDetailsFragment.getView(), product.getName()+" added to wishlist", Snackbar.LENGTH_LONG).show();
+            }
         };
     }
 }

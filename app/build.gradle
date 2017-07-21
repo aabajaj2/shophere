@@ -40,6 +40,9 @@ dependencies {
     compile "android.arch.persistence.room:runtime:1.0.0-alpha3"
     annotationProcessor "android.arch.persistence.room:compiler:1.0.0-alpha3"
     compile 'com.github.jd-alexander:LikeButton:0.2.1'
+    compile 'com.squareup.picasso:picasso:2.3.2'
+    compile 'com.nineoldandroids:library:2.4.0'
+    compile 'com.daimajia.slider:library:1.1.5@aar'
     compile 'com.google.android.gms:play-services-ads:11.0.2'
     testCompile 'junit:junit:4.12'
 }

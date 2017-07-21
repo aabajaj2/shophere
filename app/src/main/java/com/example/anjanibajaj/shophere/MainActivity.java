@@ -19,6 +19,9 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.anjanibajaj.shophere.utils.SessionManager;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -40,7 +43,8 @@ public class MainActivity extends AppCompatActivity
         } else {
             fab.show();
         }
-        getSupportActionBar().setTitle("Pick your category!");
+        //noinspection ConstantConditions
+        getSupportActionBar().setTitle("Categories");
         IndexFragment indexFragment = new IndexFragment();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.content, indexFragment); // give your fragment container id in first parameter
@@ -55,6 +59,7 @@ public class MainActivity extends AppCompatActivity
                         .setAction("Action", null).show();
             }
         });
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -62,6 +67,12 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        // dummy key for displaying ads
+        MobileAds.initialize(this, "ca-app-pub-3940256099942544~3347511713");
+        AdView mAdView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
     }
 
     @Override

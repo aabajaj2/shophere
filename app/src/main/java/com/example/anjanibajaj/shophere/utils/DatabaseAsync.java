@@ -50,7 +50,6 @@ public class DatabaseAsync extends AsyncTask<Void, Void, Void> {
                 db.productDao().insertOnlySingleRecord(pt);
             }
         }
-        Log.d("Size of pt from da", String.valueOf(db.productDao().fetchAllData().size()));
         return null;
     }
 

@@ -3,6 +3,7 @@ package com.example.anjanibajaj.shophere;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ public class ProductDetailsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Product Details");
         FragmentProductDetailsBinding fragmentProductDetailsBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_product_details, container, false);
         Product product = new Product(null,null,null,null,null);
         Bundle bundle = this.getArguments();

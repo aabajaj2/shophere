@@ -4,6 +4,8 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.databinding.BindingAdapter;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -12,6 +14,7 @@ import com.bumptech.glide.Glide;
 
 import com.example.anjanibajaj.shophere.BR;
 import com.example.anjanibajaj.shophere.CartFragment;
+import com.example.anjanibajaj.shophere.R;
 import com.example.anjanibajaj.shophere.adapters.CartAdapter;
 import com.example.anjanibajaj.shophere.databinding.FragmentCartBinding;
 import com.example.anjanibajaj.shophere.model.Product;
@@ -121,15 +124,16 @@ public class CartViewModel extends BaseObservable {
             @SuppressWarnings("ConstantConditions")
             @Override
             public void onClick(View view) {
-                try {
-                    SessionManager sessionManager = new SessionManager(cartFragment.getActivity());
-                    sessionManager.onRemoveClicked(product.getPid());
-                    getCartDetails();
-                    Snackbar.make(cartFragment.getView(), "The product is removed", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
-                } catch (ExecutionException | InterruptedException e) {
-                    e.printStackTrace();
-                }
+                SessionManager sessionManager = new SessionManager(cartFragment.getActivity());
+                sessionManager.onRemoveClicked(product.getPid());
+                CartFragment newCart = new CartFragment();
+                FragmentManager fragmentManager = cartFragment.getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.content, newCart);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+                Snackbar.make(cartFragment.getView(),product.getName()+" is removed from the cart", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
             }
         };
     }

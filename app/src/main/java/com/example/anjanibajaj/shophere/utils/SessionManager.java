@@ -71,7 +71,6 @@ public class SessionManager {
     }
 
     public void addTocart(Integer pid) {
-//        sharedPreferences = context.getSharedPreferences(CART, 0);
         editor.putBoolean(IS_PID_THERE, true);          // Storing PID  value as TRUE
         pidList = sharedPreferences.getStringSet(PIDLIST, null);
         if(pidList  == null){
@@ -83,7 +82,6 @@ public class SessionManager {
         }
         editor.putStringSet(PIDLIST, pidList);
         editor.apply();                                     // commit changes
-        Toast.makeText(context, "Added to list, size: "+ pidList.size(), Toast.LENGTH_LONG).show();
     }
 
     public HashMap<String, Set<String>> getProductDetails(String list) {
@@ -96,8 +94,6 @@ public class SessionManager {
         pidList = sharedPreferences.getStringSet(PIDLIST, null);
         if(pidList!=null){
             pidList.clear();
-        }else {
-            Toast.makeText(context.getApplicationContext(), "Your cart is empty!", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -115,15 +111,12 @@ public class SessionManager {
 
         editor.putStringSet(WPIDLIST, wpidList);
         editor.commit();                                     // commit changes
-        Toast.makeText(context, "Added to wishList, size: "+ wpidList.size(), Toast.LENGTH_SHORT).show();
     }
 
     public void clearWishList(){
         pidList = sharedPreferences.getStringSet(WPIDLIST, null);
         if(wpidList!=null){
             wpidList.clear();
-        }else {
-            Toast.makeText(context.getApplicationContext(), "Your wishlist is empty!", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -131,5 +124,11 @@ public class SessionManager {
         pidList = sharedPreferences.getStringSet(PIDLIST, null);
         assert pidList != null;
         pidList.remove(String.valueOf(pid));
+    }
+
+    public void removeFromWishList(Integer pid) {
+        wpidList = sharedPreferences.getStringSet(WPIDLIST, null);
+        assert wpidList != null;
+        wpidList.remove(String.valueOf(pid));
     }
 }

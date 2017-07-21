@@ -3,6 +3,7 @@ package com.example.anjanibajaj.shophere;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +21,7 @@ public class IndexFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Categories");
         FragmentIndexBinding fragmentIndexBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_index, container, false);
         Category category = new Category(null,"");
         CategoryViewModel categoryViewModel = new CategoryViewModel(category, this, fragmentIndexBinding);
