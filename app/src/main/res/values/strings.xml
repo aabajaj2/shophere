@@ -27,4 +27,6 @@
     <string name="clear_cart">Clear Cart</string>
     <string name="move_to_cart">Move to cart</string>
     <string name="proceed_to_checkout">Proceed to checkout</string>
+    <string name="cart_total">Cart Total   $</string>
+    <string name="remove">Remove</string>
 </resources>

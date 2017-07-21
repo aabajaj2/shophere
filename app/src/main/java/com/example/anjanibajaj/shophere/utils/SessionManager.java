@@ -3,6 +3,7 @@ package com.example.anjanibajaj.shophere.utils;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -124,5 +125,11 @@ public class SessionManager {
         }else {
             Toast.makeText(context.getApplicationContext(), "Your wishlist is empty!", Toast.LENGTH_LONG).show();
         }
+    }
+
+    public void onRemoveClicked(Integer pid){
+        pidList = sharedPreferences.getStringSet(PIDLIST, null);
+        assert pidList != null;
+        pidList.remove(String.valueOf(pid));
     }
 }

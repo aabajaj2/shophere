@@ -1,25 +1,23 @@
 package com.example.anjanibajaj.shophere.viewModel;
 
-import android.arch.persistence.room.Room;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.databinding.BindingAdapter;
-import android.os.AsyncTask;
+import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+
+import com.example.anjanibajaj.shophere.BR;
 import com.example.anjanibajaj.shophere.CartFragment;
 import com.example.anjanibajaj.shophere.adapters.CartAdapter;
 import com.example.anjanibajaj.shophere.databinding.FragmentCartBinding;
 import com.example.anjanibajaj.shophere.model.Product;
-import com.example.anjanibajaj.shophere.model.ProductTable;
-import com.example.anjanibajaj.shophere.utils.AppDatabase;
 import com.example.anjanibajaj.shophere.utils.FetchProducts;
 import com.example.anjanibajaj.shophere.utils.SessionManager;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
@@ -27,13 +25,15 @@ import java.util.concurrent.ExecutionException;
 /**
  * Created by Anjani Bajaj on 7/12/2017.
  * This class binds the data for the view cart
+ * Sets the adapter for cart recycler view
+ * Removes elements from the cart, updates cart total
  */
 
 public class CartViewModel extends BaseObservable {
     private Product product;
     private CartFragment cartFragment;
     private FragmentCartBinding fcb;
-    private List<Product> cartProducts;
+    private Integer cartTotal;
 
     public CartViewModel(Product product, CartFragment cartFragment, FragmentCartBinding fragmentCartBinding) {
         this.product = product;
@@ -52,7 +52,7 @@ public class CartViewModel extends BaseObservable {
 
     @Bindable
     public String getProductPrice() {
-        return "$"+String.valueOf(product.getPrice());
+        return String.valueOf(product.getPrice());
     }
 
     public void setProductPrice(String price) {
@@ -65,19 +65,40 @@ public class CartViewModel extends BaseObservable {
     }
 
     @Bindable
+    public String getCartTotal(){
+        Log.d("getCartTotal", String.valueOf(cartTotal));
+        return String.valueOf(cartTotal);
+    }
+
+    public void setCartTotal(String cartTotal){
+        this.cartTotal = Integer.valueOf(cartTotal);
+        notifyPropertyChanged(BR.cartTotal);
+    }
+
+    @Bindable
     public String getImageUrl() {
         return product.getImageUrl();
     }
 
+    @SuppressWarnings("ConstantConditions")
     public void getCartDetails() throws ExecutionException, InterruptedException {
         SessionManager sessionManager = new SessionManager(cartFragment.getActivity());
         Set<String> sessionPidList = sessionManager.getProductDetails(SessionManager.PIDLIST).get(SessionManager.PIDLIST);
         if (sessionPidList != null) {
-            Toast.makeText(cartFragment.getActivity().getApplicationContext(), "Size of your cart is " + String.valueOf(sessionPidList.size()), Toast.LENGTH_SHORT).show();
-            cartProducts = new FetchProducts(sessionPidList, cartFragment.getContext()).execute().get();
+            List<Product> cartProducts = new FetchProducts(sessionPidList, cartFragment.getContext()).execute().get();
+            updateCartTotal(cartProducts);
             CartAdapter cartAdapter = new CartAdapter(cartProducts, cartFragment, fcb);
             fcb.recyclerView3.setAdapter(cartAdapter);
         }
+    }
+
+    private void updateCartTotal(List<Product> cartProducts) {
+        cartTotal = 0;
+        for (Product p: cartProducts) {
+            cartTotal = cartTotal+ p.getPrice();
+        }
+        setCartTotal(String.valueOf(cartTotal));
+        Log.d("update cart total", String.valueOf(cartTotal));
     }
 
     public View.OnClickListener onClearCartClicked(){
@@ -85,7 +106,9 @@ public class CartViewModel extends BaseObservable {
             @Override
             public void onClick(View view) {
                 try {
-                    clearCartFunction();
+                    SessionManager sessionManager = new SessionManager(cartFragment.getActivity());
+                    sessionManager.clearCart();
+                    getCartDetails();
                 } catch (ExecutionException | InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -93,9 +116,21 @@ public class CartViewModel extends BaseObservable {
         };
     }
 
-    private void clearCartFunction() throws ExecutionException, InterruptedException {
-        SessionManager sessionManager = new SessionManager(cartFragment.getActivity());
-        sessionManager.clearCart();
-        getCartDetails();
+    public View.OnClickListener onRemoveClicked(){
+        return new View.OnClickListener() {
+            @SuppressWarnings("ConstantConditions")
+            @Override
+            public void onClick(View view) {
+                try {
+                    SessionManager sessionManager = new SessionManager(cartFragment.getActivity());
+                    sessionManager.onRemoveClicked(product.getPid());
+                    getCartDetails();
+                    Snackbar.make(cartFragment.getView(), "The product is removed", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                } catch (ExecutionException | InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
     }
 }

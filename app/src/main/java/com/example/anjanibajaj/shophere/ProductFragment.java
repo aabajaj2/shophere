@@ -2,10 +2,8 @@ package com.example.anjanibajaj.shophere;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,18 +28,11 @@ public class ProductFragment extends Fragment {
             cid = bundle.getInt("cid");
             type = bundle.getString("ctype");
         }
-        productViewModel.getAllProducts(buildUrl("products"), cid);
+        productViewModel.getAllProducts(Constants.APP_URL + "products", cid);
         StaggeredGridLayoutManager sglm = new StaggeredGridLayoutManager(2, 1);
         fragmentProductBinding.recyclerView2.setLayoutManager(sglm);
         fragmentProductBinding.setPvm(productViewModel);
         return fragmentProductBinding.getRoot();
     }
 
-    @NonNull
-    public String buildUrl(String type) {
-        StringBuilder url = new StringBuilder();
-        url.append(Constants.APP_URL).append(type);
-        Log.d("URL", url.toString());
-        return url.toString();
-    }
 }
