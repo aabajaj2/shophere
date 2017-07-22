@@ -24,9 +24,11 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
+import com.razorpay.Checkout;
+import com.razorpay.PaymentResultListener;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, PaymentResultListener {
 
     private boolean doubleBackToExitPressedOnce = false;
     SessionManager sessionManager;
@@ -52,6 +54,7 @@ public class MainActivity extends AppCompatActivity
         transaction.replace(R.id.content, indexFragment); // give your fragment container id in first parameter
         transaction.addToBackStack(null);  // if written, this transaction will be added to backstack
         transaction.commit();
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -162,6 +165,17 @@ public class MainActivity extends AppCompatActivity
         getSupportActionBar().setTitle(title);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
+        Checkout.preload(getApplicationContext());
         return true;
+    }
+
+    @Override
+    public void onPaymentSuccess(String s) {
+        Toast.makeText(getApplicationContext(), "Payment Successful", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onPaymentError(int i, String s) {
+
     }
 }

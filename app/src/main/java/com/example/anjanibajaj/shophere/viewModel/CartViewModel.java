@@ -20,6 +20,9 @@ import com.example.anjanibajaj.shophere.databinding.FragmentCartBinding;
 import com.example.anjanibajaj.shophere.model.Product;
 import com.example.anjanibajaj.shophere.utils.FetchProducts;
 import com.example.anjanibajaj.shophere.utils.SessionManager;
+import com.razorpay.Checkout;
+
+import org.json.JSONObject;
 
 import java.util.List;
 import java.util.Set;
@@ -55,7 +58,7 @@ public class CartViewModel extends BaseObservable {
 
     @Bindable
     public String getProductPrice() {
-        return String.valueOf(product.getPrice());
+        return "$"+String.valueOf(product.getPrice());
     }
 
     public void setProductPrice(String price) {
@@ -136,5 +139,46 @@ public class CartViewModel extends BaseObservable {
                         .setAction("Action", null).show();
             }
         };
+    }
+
+    public View.OnClickListener onProceedToPayClicked(){
+        return new View.OnClickListener() {
+            @SuppressWarnings("ConstantConditions")
+            @Override
+            public void onClick(View view) {
+                startPayment();
+            }
+        };
+    }
+
+    private void startPayment() {
+        Checkout checkout = new Checkout();
+
+        try {
+            JSONObject options = new JSONObject();
+            SessionManager sessionManager = new SessionManager(cartFragment.getContext());
+            options.put("name", sessionManager.getUserDetails().get(SessionManager.EMAIL));
+
+            /**
+             * Description can be anything
+             * eg: Order #123123
+             *     Invoice Payment
+             *     etc.
+             */
+            options.put("description", "Order #123456");
+
+            options.put("currency", "USD");
+
+            /**
+             * Amount is always passed in PAISE
+             * Eg: "500" = Rs 5.00
+             */
+            options.put("amount", cartTotal*100);
+
+            checkout.open(cartFragment.getActivity(), options);
+
+        } catch(Exception e) {
+            Log.e("razor pay", "Error in starting Razorpay Checkout", e);
+        }
     }
 }

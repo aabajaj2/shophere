@@ -29,7 +29,7 @@ public class SessionManager {
     public static final String CART = "cart";
     public static final String WISHLIST = "wishlist";
     private static final String IS_LOGGED_IN = "isLoggedin";
-    private static final String EMAIL = "email";
+    public static final String EMAIL = "email";
     private static final String PASSWORD = "password";
     private static final String IS_PID_THERE = "check";
     private static final String IS_WPID_THERE = "check";

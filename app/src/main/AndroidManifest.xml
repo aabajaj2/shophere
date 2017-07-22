@@ -3,7 +3,9 @@
     package="com.example.anjanibajaj.shophere">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 
     <application
         android:allowBackup="true"
@@ -23,6 +25,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".LoginActivity" />
+        <activity android:name=".Payment"></activity>
+        <meta-data
+            android:name="com.razorpay.ApiKey"
+            android:value="rzp_test_H28bH5pIWfaT2L"
+            />
     </application>
 
 </manifest>
