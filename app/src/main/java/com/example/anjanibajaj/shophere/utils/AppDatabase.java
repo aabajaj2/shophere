@@ -8,7 +8,7 @@ import com.example.anjanibajaj.shophere.model.ProductTable;
 
 /**
  * Created by Anjani Bajaj on 7/14/2017.
- *
+ * Model for The Internal room db used for saving products
  */
 
 @Database(entities = {ProductTable.class}, version = 2)

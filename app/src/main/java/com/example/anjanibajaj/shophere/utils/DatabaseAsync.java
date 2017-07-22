@@ -12,7 +12,7 @@ import java.util.List;
 
 /**
  * Created by Anjani Bajaj on 7/14/2017.
- *
+ *  Helper class to add products into room db, for persistence
  */
 
 public class DatabaseAsync extends AsyncTask<Void, Void, Void> {

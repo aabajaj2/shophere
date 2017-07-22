@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.daimajia.slider.library.SliderLayout;
+import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.example.anjanibajaj.shophere.databinding.FragmentProductDetailsBinding;
 import com.example.anjanibajaj.shophere.model.Product;
 import com.example.anjanibajaj.shophere.viewModel.ProductDetailsViewModel;
@@ -31,6 +33,17 @@ public class ProductDetailsFragment extends Fragment {
             product.setCategory(bundle.getString("category"));
             product.setImageList(bundle.getStringArrayList("imageList"));
         }
+        // Testing slider without data binding
+        SliderLayout sliderShow = fragmentProductDetailsBinding.getRoot().findViewById(R.id.slider);
+
+        for (String i : product.getImageList()) {
+            TextSliderView textSliderView = new TextSliderView(this.getActivity());
+            textSliderView
+                    .description(product.getName())
+                    .image(i);
+            sliderShow.addSlider(textSliderView);
+        }
+
         ProductDetailsViewModel productDetailsViewModel = new ProductDetailsViewModel(product, fragmentProductDetailsBinding, this);
 //        productDetailsViewModel.setAdapterImageViewPager(product.getImageList());
         fragmentProductDetailsBinding.setPdvm(productDetailsViewModel);

@@ -15,13 +15,12 @@ import com.example.anjanibajaj.shophere.viewModel.CartViewModel;
 import java.util.concurrent.ExecutionException;
 
 public class CartFragment extends Fragment {
-    private FragmentCartBinding fragmentCartBinding;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        fragmentCartBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_cart,container, false);
-        Product product = new Product("TV","",null, null,null,null);
+        FragmentCartBinding fragmentCartBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_cart, container, false);
+        Product product = new Product("","",null, null,null,null);
         CartViewModel cartViewModel = new CartViewModel(product, this, fragmentCartBinding);
         try {
             cartViewModel.getCartDetails();

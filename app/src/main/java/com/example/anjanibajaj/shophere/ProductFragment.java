@@ -36,5 +36,4 @@ public class ProductFragment extends Fragment {
         fragmentProductBinding.setPvm(productViewModel);
         return fragmentProductBinding.getRoot();
     }
-
 }
