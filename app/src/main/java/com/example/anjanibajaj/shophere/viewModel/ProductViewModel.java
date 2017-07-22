@@ -211,15 +211,6 @@ public class ProductViewModel extends BaseObservable {
         Glide.with(view.getContext()).load(url).crossFade(2).into(view);
     }
 
-    private Product getProductDetails(Integer pid){
-        for (Product p: cproducts) {
-            if (p.getPid() == pid){
-                return p;
-            }
-        }
-        return null;
-    }
-
     public View.OnClickListener productCardClicked(){
         return new View.OnClickListener() {
             @Override

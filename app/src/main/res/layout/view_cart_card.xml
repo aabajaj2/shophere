@@ -19,8 +19,8 @@
 
                 <TextView
                     android:id="@+id/textView"
-                    android:layout_width="173dp"
-                    android:layout_height="38dp"
+                    android:layout_width="192dp"
+                    android:layout_height="46dp"
                     android:text="@{cavm.product.name}"
                     app:layout_constraintTop_toTopOf="parent"
                     android:layout_marginTop="8dp"
@@ -30,14 +30,14 @@
                     app:layout_constraintLeft_toLeftOf="parent"
                     android:layout_marginRight="8dp"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintHorizontal_bias="0.579"
                     android:tooltipText="check"
-                    app:layout_constraintVertical_bias="0.0" />
+                    app:layout_constraintVertical_bias="0.0"
+                    app:layout_constraintHorizontal_bias="0.527" />
 
                 <ImageView
                     android:id="@+id/imageView4"
-                    android:layout_width="93dp"
-                    android:layout_height="63dp"
+                    android:layout_width="108dp"
+                    android:layout_height="77dp"
                     app:image = "@{cavm.imageUrl}"
                     android:layout_marginEnd="0dp"
                     android:layout_marginStart="8dp"
@@ -46,42 +46,42 @@
                     android:layout_marginTop="8dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     android:layout_marginBottom="8dp"
-                    app:layout_constraintHorizontal_bias="0.516"
+                    app:layout_constraintHorizontal_bias="0.096"
                     app:layout_constraintRight_toLeftOf="@+id/textView"
-                    app:layout_constraintVertical_bias="0.333" />
+                    app:layout_constraintVertical_bias="0.0" />
 
                 <TextView
                     android:id="@+id/textView9"
-                    android:layout_width="174dp"
-                    android:layout_height="19dp"
+                    android:layout_width="156dp"
+                    android:layout_height="32dp"
                     android:text="@{cavm.productPrice}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     android:layout_marginBottom="8dp"
-                    app:layout_constraintLeft_toRightOf="@+id/imageView4"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginTop="8dp"
-                    app:layout_constraintTop_toBottomOf="@+id/textView"
-                    app:layout_constraintVertical_bias="1.0"
-                    android:layout_marginRight="8dp"
+                    android:layout_marginRight="128dp"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0" />
+                    android:layout_marginLeft="8dp"
+                    app:layout_constraintLeft_toLeftOf="@+id/imageView4"
+                    app:layout_constraintHorizontal_bias="0.891"
+                    app:layout_constraintTop_toTopOf="@+id/textView"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintVertical_bias="1.0" />
 
                 <Button
                     android:id="@+id/button6"
-                    android:layout_width="80dp"
-                    android:layout_height="36dp"
+                    android:layout_width="84dp"
+                    android:layout_height="44dp"
                     android:layout_marginLeft="8dp"
                     android:layout_marginRight="8dp"
                     android:layout_marginTop="16dp"
                     android:text="@string/remove"
                     android:onClick="@{cavm.onRemoveClicked()}"
-                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintHorizontal_bias="0.958"
                     app:layout_constraintLeft_toRightOf="@+id/imageView4"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     android:layout_marginBottom="8dp"
-                    app:layout_constraintVertical_bias="0.263" />
+                    app:layout_constraintVertical_bias="0.32" />
 
             </android.support.constraint.ConstraintLayout>
 
