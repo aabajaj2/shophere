@@ -1,5 +1,6 @@
 package com.example.anjanibajaj.shophere.viewModel;
 
+import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.databinding.BindingAdapter;
@@ -9,11 +10,13 @@ import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
 import com.example.anjanibajaj.shophere.BR;
 import com.example.anjanibajaj.shophere.CartFragment;
+import com.example.anjanibajaj.shophere.LoginActivity;
 import com.example.anjanibajaj.shophere.R;
 import com.example.anjanibajaj.shophere.adapters.CartAdapter;
 import com.example.anjanibajaj.shophere.databinding.FragmentCartBinding;
@@ -28,6 +31,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
+import static com.example.anjanibajaj.shophere.R.string.email;
+
 /**
  * Created by Anjani Bajaj on 7/12/2017.
  * This class binds the data for the view cart
@@ -40,6 +45,7 @@ public class CartViewModel extends BaseObservable {
     private CartFragment cartFragment;
     private FragmentCartBinding fcb;
     private Integer cartTotal;
+    public boolean isVisible = true;
 
     public CartViewModel(Product product, CartFragment cartFragment, FragmentCartBinding fragmentCartBinding) {
         this.product = product;
@@ -146,19 +152,29 @@ public class CartViewModel extends BaseObservable {
             @SuppressWarnings("ConstantConditions")
             @Override
             public void onClick(View view) {
-                startPayment();
+                SessionManager sessionManager = new SessionManager(cartFragment.getContext());
+                String email = sessionManager.getUserDetails().get(SessionManager.EMAIL);
+                if (email != null) {
+                    if(cartTotal>0) {
+                        startPayment(email);
+                    }else {
+                        Toast.makeText(cartFragment.getActivity().getApplicationContext(), "Add some products in the cart first", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Intent intent = new Intent(cartFragment.getActivity(), LoginActivity.class);
+                    cartFragment.getActivity().startActivity(intent);
+                    Toast.makeText(cartFragment.getActivity().getApplicationContext(), "You need to login for payment!", Toast.LENGTH_SHORT).show();
+                }
             }
         };
     }
 
-    private void startPayment() {
+    private void startPayment(String email) {
         Checkout checkout = new Checkout();
 
         try {
             JSONObject options = new JSONObject();
-            SessionManager sessionManager = new SessionManager(cartFragment.getContext());
-            options.put("name", sessionManager.getUserDetails().get(SessionManager.EMAIL));
-
+            options.put("name", email);
             /**
              * Description can be anything
              * eg: Order #123123
@@ -169,15 +185,11 @@ public class CartViewModel extends BaseObservable {
 
             options.put("currency", "USD");
 
-            /**
-             * Amount is always passed in PAISE
-             * Eg: "500" = Rs 5.00
-             */
-            options.put("amount", cartTotal*100);
+            options.put("amount", cartTotal * 100);
 
             checkout.open(cartFragment.getActivity(), options);
 
-        } catch(Exception e) {
+        } catch (Exception e) {
             Log.e("razor pay", "Error in starting Razorpay Checkout", e);
         }
     }

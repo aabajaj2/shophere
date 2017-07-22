@@ -17,9 +17,4 @@
         android:icon="@drawable/ic_menu_manage"
         android:title="@string/account_settings" />
 
-    <item
-        android:id="@+id/nav_logout"
-        android:icon="@drawable/loginrounded"
-        android:title="@string/log_out" />
-
 </menu>

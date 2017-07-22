@@ -5,6 +5,7 @@
         <variable
             name="cavm"
             type="com.example.anjanibajaj.shophere.viewModel.CartViewModel"/>
+
     </data>
 <FrameLayout
     android:layout_width="match_parent"
@@ -82,8 +83,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/recycler_view3"
             app:layout_constraintVertical_bias="0.246"
-            android:layout_marginStart="10dp"
-            android:layout_marginLeft="16dp" />
+            android:layout_marginStart="10dp" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_view3"

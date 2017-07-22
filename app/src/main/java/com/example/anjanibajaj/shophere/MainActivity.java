@@ -79,12 +79,15 @@ public class MainActivity extends AppCompatActivity
         AdView mAdView = (AdView) findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
+
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+        if(sessionManager.getUserDetails().get("email")!=null) {
+            getMenuInflater().inflate(R.menu.main, menu);
+        }
         return true;
     }
 
@@ -97,7 +100,8 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            return true;
+            sessionManager.logoutUser();
+            getSupportActionBar().setTitle("Logged Out");
         }
 
         return super.onOptionsItemSelected(item);
@@ -142,10 +146,7 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         String title = "";
-        if (id == R.id.nav_logout) {
-            title = "Logged out";
-            sessionManager.logoutUser();
-        } else if (id == R.id.nav_as) {
+        if (id == R.id.nav_as) {
             title = "Account Settings";
         } else if (id == R.id.nav_cart) {
             title = "Cart Details";
