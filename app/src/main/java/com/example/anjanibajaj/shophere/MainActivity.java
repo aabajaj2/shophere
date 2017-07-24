@@ -77,6 +77,7 @@ public class MainActivity extends AppCompatActivity
         MobileAds.initialize(getApplicationContext(),
                 "ca-app-pub-3940256099942544/6300978111");
         AdView mAdView = (AdView) findViewById(R.id.adView);
+        // .addtestDevice("") to test on actual devices
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
 
