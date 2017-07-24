@@ -27,6 +27,19 @@ public class ProductTable {
     private Integer price;
     private String imageUrl;
 
+    public ProductTable() {
+    }
+
+    public ProductTable(int pid, int cid, String name, Integer price, String imageUrl, String category, Product product) {
+        this.pid = pid;
+        this.cid = cid;
+        this.name = name;
+        this.price = price;
+        this.imageUrl = imageUrl;
+        this.category = category;
+        this.product = product;
+    }
+
     public String getCategory() {
         return category;
     }
